@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://biz001"]
+
+[ext_resource type="Script" path="res://scenes/overworld/InteractionZone.gd" id="1_iz"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 44.0
+
+[node name="InteractionZone" type="Area2D"]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1_iz")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1")
+
+[node name="Prompt" type="Label" parent="."]
+position = Vector2(-28, -52)
+text = "[E]"
+visible = false
+theme_override_colors/font_color = Color(0.85, 1.0, 0.75, 1.0)
+theme_override_font_sizes/font_size = 12

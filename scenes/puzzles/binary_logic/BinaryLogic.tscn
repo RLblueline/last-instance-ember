@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://binlogic00001"]
+
+[ext_resource type="Script" uid="uid://bhgmmct2mofsr" path="res://scenes/puzzles/binary_logic/BinaryLogic.gd" id="1_binlogic"]
+[ext_resource type="Script" uid="uid://pnqhgv656uqp" path="res://scenes/puzzles/binary_logic/HexGridView.gd" id="2_hexview"]
+
+[node name="BinaryLogic" type="Control" unique_id=1256480295]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_binlogic")
+
+[node name="Layout" type="VBoxContainer" parent="." unique_id=884227791]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="Layout" unique_id=1319566232]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 1, 0.6, 1)
+text = "RESTORE DATA PATHWAY"
+
+[node name="HintLabel" type="Label" parent="Layout" unique_id=432239767]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.8, 0.6, 1)
+text = "Click hexes to toggle them. Activate exactly the shortest path from SRC to SNK."
+autowrap_mode = 3
+
+[node name="StatusLabel" type="Label" parent="Layout" unique_id=72778807]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.4, 1)
+text = "Active: 0  |  Target: ? node(s)"
+
+[node name="HexGridView" type="Control" parent="Layout" unique_id=361088112]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_hexview")
+
+[node name="ResetButton" type="Button" parent="Layout" unique_id=312817944]
+unique_name_in_owner = true
+layout_mode = 2
+text = "[ RESET ]"

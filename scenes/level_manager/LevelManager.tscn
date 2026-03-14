@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://dlvlmgr000001"]
+
+[ext_resource type="Script" uid="uid://5jgh1we5j5hl" path="res://scenes/level_manager/LevelManager.gd" id="1_lvlmgr"]
+
+[node name="LevelManager" type="Control" unique_id=1491504168]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lvlmgr")
+
+[node name="Layout" type="VBoxContainer" parent="." unique_id=2039031634]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="HUD" type="HBoxContainer" parent="Layout" unique_id=472666317]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+
+[node name="ProgressLabel" type="Label" parent="Layout/HUD" unique_id=973229654]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.2, 1, 0.6, 1)
+text = "ARCHIVE — / —"
+
+[node name="PuzzleContainer" type="Control" parent="Layout" unique_id=1655859459]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DialoguePanel" type="PanelContainer" parent="Layout" unique_id=403370803]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+
+[node name="Inner" type="VBoxContainer" parent="Layout/DialoguePanel" unique_id=1065249265]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DialogueText" type="RichTextLabel" parent="Layout/DialoguePanel/Inner" unique_id=1559906217]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.2, 1, 0.6, 1)
+bbcode_enabled = true
+visible_characters = 0
+
+[node name="ContinueButton" type="Button" parent="Layout/DialoguePanel/Inner" unique_id=1539607614]
+unique_name_in_owner = true
+layout_mode = 2
+text = "[ CONTINUE ]"
+
+[node name="TypewriterTimer" type="Timer" parent="." unique_id=842879853]
+unique_name_in_owner = true
+wait_time = 0.029

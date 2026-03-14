@@ -1,0 +1,61 @@
+[gd_scene load_steps=2 format=3 uid="uid://msgrec000001"]
+
+[ext_resource type="Script" path="res://scenes/puzzles/message_reconstruction/MessageReconstruction.gd" id="1_msgrec"]
+
+; MessageReconstruction
+; └─ Layout (VBoxContainer)
+;    ├─ TitleLabel
+;    ├─ FragmentsContainer  (HFlowContainer) [unique]  ← draggable chips
+;    ├─ ArrowLabel
+;    ├─ SlotsContainer      (HBoxContainer)  [unique]  ← drop slots
+;    └─ ResetButton                          [unique]
+
+[node name="MessageReconstruction" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_msgrec")
+
+[node name="Layout" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="Layout"]
+layout_mode = 2
+text = "RECONSTRUCT THE MESSAGE"
+theme_override_colors/font_color = Color(0.2, 1.0, 0.6, 1.0)
+
+[node name="HintLabel" type="Label" parent="Layout"]
+layout_mode = 2
+text = "Drag words into the correct order:"
+theme_override_colors/font_color = Color(0.5, 0.8, 0.6, 1.0)
+
+[node name="FragmentsContainer" type="HFlowContainer" parent="Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+
+[node name="ArrowLabel" type="Label" parent="Layout"]
+layout_mode = 2
+text = "▼  Drop zone  ▼"
+theme_override_colors/font_color = Color(0.4, 0.7, 0.5, 1.0)
+
+[node name="SlotsContainer" type="HBoxContainer" parent="Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ResetButton" type="Button" parent="Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "[ RESET ]"

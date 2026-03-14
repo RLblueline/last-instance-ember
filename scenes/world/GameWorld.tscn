@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://bgameworld"]
+
+[ext_resource type="Script"      path="res://scenes/world/GameWorld.gd"            id="1_gw"]
+[ext_resource type="PackedScene" path="res://scenes/overworld/Player.tscn"         id="2_pl"]
+[ext_resource type="PackedScene" path="res://scenes/dialogue/DialogueBox.tscn"     id="3_db"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn"                   id="4_hud"]
+
+[node name="GameWorld" type="Node2D"]
+script = ExtResource("1_gw")
+
+[node name="RoomContainer" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Player" parent="." instance=ExtResource("2_pl")]
+unique_name_in_owner = true
+position = Vector2(120.0, 400.0)
+
+[node name="PuzzleOverlay" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+layer = 20
+
+[node name="DialogueBox" parent="." instance=ExtResource("3_db")]
+unique_name_in_owner = true
+
+[node name="HUD" parent="." instance=ExtResource("4_hud")]
+unique_name_in_owner = true
