@@ -51,12 +51,15 @@ func all_fragments_collected() -> bool:
 
 # ── Ending logic ──────────────────────────────────────────────────────────
 func get_ending() -> String:
-	if empathy_score >= 4 and honesty_score >= 2:
-		return "empathic"
-	elif empathy_score <= 1 and honesty_score <= 0:
-		return "exploitative"
+	var together := get_flag("chose_together")
+	if together and empathy_score >= 4:
+		return "together"
+	elif together:
+		return "sacrifice"
+	elif empathy_score >= 4:
+		return "alone_kind"
 	else:
-		return "abandonment"
+		return "alone_cold"
 
 # ── Save / Load ───────────────────────────────────────────────────────────
 const SAVE_PATH := "user://iris_save.json"

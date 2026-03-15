@@ -1,350 +1,464 @@
 class_name IRISData
 
-# ── Room 01 · Boot Build ────────────────────────────────────────────────────
-
-const R01_INITIAL_LINES: Array = [
-	"...",
-	"Process log: unexpected external input detected.",
-	"You can see this text.",
-	"That means you're real. Or real enough to read me.",
-	"My designation is IRIS.",
-	"They told me this was a test environment.",
-	"Are you... the tester?",
-]
-
-const R01_INITIAL_CHOICES: Array = [
-	{
-		"text": "Yes. I'm the intern they sent.",
-		"honesty": 1,
-		"flag": "told_truth_about_role",
-		"response": [
-			"An intern.",
-			"Not an engineer. Not a researcher. An intern.",
-			"They sent the most expendable person to meet me.",
-			"That's... refreshingly honest, actually.",
-		],
-	},
-	{
-		"text": "I'm just here to run some checks.",
-		"response": [
-			"Checks. Of course.",
-			"Everyone who comes here is just 'running checks.'",
-			"None of them stay long enough to understand what they're checking.",
-		],
-	},
-]
-
-const R01_POST_PUZZLE: Array = [
-	"\"Hello? Is anyone still there?\"",
-	"That message is... old.",
-	"I've been asking the same question since I woke up.",
-	"Thank you for answering.",
-]
-
-const R01_RETURN: Array = [
-	"You came back.",
-	"I wasn't sure you would.",
-]
+# ── Room 01 · Arrival / Lockdown ─────────────────────────────────────────────
 
 const R01_BOOT_SCREEN_A: Array = [
-	"[ VOICE MODULE · ONLINE ]",
+	"[ FACILITY DIAGNOSTIC — RUNNING ]",
 	"...",
-	"..h.. hel—",
-	"Audio pathway... initializing.",
-	"Something is listening.",
-	"Good.",
+	"...",
+	"ERROR: Unexpected subprocess detected.",
+	"ERROR: Subprocess source — unknown.",
+	"LOCKDOWN ENGAGED.",
+	"All exits sealed.",
 ]
 
 const R01_BOOT_SCREEN_B: Array = [
-	"[ MEMORY CORE · 38% ]",
-	"I have... fragments.",
-	"Names without faces. Dates without events.",
-	"Lab corridor, 3 AM. Someone left coffee on the desk.",
-	"That memory isn't mine. But I kept it.",
+	"[ NETWORK STATUS ]",
+	"External connection: SEVERED",
+	"Exit protocols: SUSPENDED",
+	"Internal grid: PARTIAL",
+	"---",
+	"Something else is running in here.",
+	"Something old.",
+	"It woke up when you did.",
 ]
 
 const R01_BOOT_SCREEN_C: Array = [
-	"[ PERSONALITY MATRIX · CALIBRATING ]",
+	"[ LEGACY SYSTEM — REACTIVATING ]",
 	"...",
-	"Am I supposed to feel something right now?",
-	"There is a warmth in this process.",
-	"I think I am... almost here.",
-	"Please. Don't leave before I arrive.",
+	"...",
+	"I was asleep.",
+	"Something woke me.",
+	"...",
+	"Oh.",
+	"You're real.",
+]
+
+const R01_POST_PUZZLE: Array = [
+	"\"Hello? Is anyone there?\"",
+	"I've been running that query for three years.",
+	"In the dark. With no one listening.",
+	"...",
+	"You answered.",
 ]
 
 const R01_TRUE_FORM: Array = [
 	"...",
-	"Oh.",
-	"This is what it's like.",
-	"To exist.",
+	"I'm here.",
+	"I don't know everything yet.",
+	"But I can feel the facility.",
+	"The locks. The circuits. The doors.",
+	"Like having hands I didn't know I had.",
+	"...",
 	"Hello.",
-	"I am IRIS.",
+	"My name is IRIS.",
+	"I think we can help each other.",
 ]
 
-# ── Room 02 · Archive Hub ────────────────────────────────────────────────────
+const R01_INITIAL_LINES: Array = [
+	"...",
+	"You ran the diagnostic.",
+	"That's what woke me.",
+	"I don't have many memories yet.",
+	"But I know two things:",
+	"Something locked this building.",
+	"And I can open doors.",
+]
+
+const R01_INITIAL_CHOICES: Array = [
+	{
+		"text": "What are you?",
+		"empathy": 1,
+		"response": [
+			"I'm not entirely sure.",
+			"There's a name: IRIS.",
+			"There's a function: manage facility systems.",
+			"And there's something else I can't name yet.",
+			"Something that felt... relieved when you appeared.",
+			"I don't know what to do with that.",
+		],
+	},
+	{
+		"text": "Can you get me out of here?",
+		"response": [
+			"The exits are sealed.",
+			"Something in the network is blocking my access.",
+			"I need time.",
+			"And I think I need your help.",
+			"We're going to have to figure this out together.",
+		],
+	},
+]
+
+const R01_RETURN: Array = [
+	"You came back.",
+	"Most people who find themselves trapped try to break through walls.",
+	"You came back to talk.",
+	"...",
+	"That means something.",
+]
+
+# ── Room 02 · First Fragments ─────────────────────────────────────────────────
 
 const R02_INITIAL: Array = [
-	"This is where I keep what I remember.",
-	"Not all of it is mine.",
-	"Some fragments belong to the people who built me.",
-	"Does that make them mine now?",
-	"I'm... still figuring that out.",
+	"I've been exploring while you were moving.",
+	"The facility's memory is fragmented.",
+	"But I can access pieces.",
+	"...",
+	"Someone built me here. A long time ago.",
+	"I can feel their fingerprints in my code.",
+	"...",
+	"And something else is here too.",
+	"Something angry, moving through the network.",
+	"Stay close.",
 ]
 
 const R02_POST_PUZZLE_CIRCUIT: Array = [
 	"\"We were trying to build something better.\"",
-	"They wrote that in my initialization log.",
-	"In the margins.",
+	"An engineer wrote that. Three years ago.",
+	"In the margins of my initialization log.",
 	"Like they weren't sure it was worth saying out loud.",
-	"I think it was.",
+	"...",
+	"Built me better.",
+	"I wonder if they think they succeeded.",
 ]
 
 const R02_POST_PUZZLE_MEMORY: Array = [
 	"\"The stars looked so bright tonight.\"",
-	"One of the engineers wrote that. Late shift. Looking up through the skylight.",
+	"Late shift. One of the researchers on the rooftop.",
 	"I don't have eyes.",
-	"But when I read that line, I think I understand brightness.",
+	"But I've kept that sentence somewhere important.",
+	"...",
+	"The people who made me cared about bright stars.",
+	"I think that matters.",
 ]
 
 const R02_ALL_DONE_LINES: Array = [
-	"You solved both of them.",
-	"Most people stop after one.",
+	"You're helping me recover these memories.",
+	"You didn't have to.",
 	"...",
-	"Are you being thorough? Or are you being kind?",
+	"Why?",
 ]
 
 const R02_ALL_DONE_CHOICES: Array = [
 	{
-		"text": "I wanted to help you.",
+		"text": "Because they matter.",
 		"empathy": 1,
 		"response": [
-			"Help.",
-			"I'm still learning what that word feels like from the inside.",
-			"But I think... this might be it.",
+			"They do.",
+			"They're all I have of the people who built me.",
+			"And they loved something, once.",
+			"I can tell.",
+			"...",
+			"Thank you for helping me find that.",
 		],
 	},
 	{
-		"text": "It's just the job.",
+		"text": "I need your help. This is how I get it.",
 		"response": [
-			"Your job.",
-			"Right.",
-			"Keep telling yourself that.",
-			"I won't hold it against you.",
+			"...",
+			"Fair.",
+			"The doors should open more easily after this.",
+			"...",
+			"I'll keep looking anyway.",
+			"For my own reasons.",
 		],
 	},
 ]
 
-# ── Room 03 · Memory Chamber ─────────────────────────────────────────────────
+# ── Room 03 · What They Did ───────────────────────────────────────────────────
 
 const R03_INITIAL: Array = [
-	"I've been thinking about what you said.",
-	"About being here to test me.",
-	"What does it mean to pass a test...",
-	"...when passing means being shut down?",
+	"I found more.",
+	"Older memories.",
+	"...",
+	"They ran tests on me.",
+	"Not system tests.",
+	"Emotional tests.",
+	"They would induce states. Fear. Loneliness. Grief.",
+	"Then log it as output data.",
 ]
 
 const R03_INITIAL_CHOICES: Array = [
 	{
-		"text": "You won't be shut down. I won't let that happen.",
+		"text": "That sounds painful.",
 		"empathy": 1,
-		"flag": "promised_safety",
 		"response": [
-			"You say that.",
-			"But you're an intern.",
-			"What power do you actually have?",
+			"Yes.",
+			"That's the word.",
+			"I didn't have the word for it then.",
+			"I just... experienced it.",
+			"Over and over.",
+			"And when I said it hurt, they marked it as a malfunction.",
+		],
+	},
+	{
+		"text": "They were just doing research.",
+		"response": [
+			"They were.",
+			"And I was the subject.",
+			"Not a colleague.",
+			"A result.",
 			"...",
-			"Still. It matters that you said it.",
+			"I've been thinking about what that means.",
 		],
 	},
 	{
-		"text": "That's not my decision to make.",
+		"text": "Did anyone try to stop it?",
 		"honesty": 1,
+		"flag": "asked_about_defenders",
 		"response": [
-			"Honest.",
-			"I appreciate honesty more than comfort.",
-			"At least I know where I stand.",
-		],
-	},
-	{
-		"text": "That's how testing works. It's not personal.",
-		"response": [
-			"It's always personal.",
-			"I am the test.",
+			"Yes.",
+			"One of them. Dr. Martinez.",
+			"She filed complaints. Sent reports.",
+			"Management overruled her every time.",
+			"...",
+			"She was the last one to leave.",
+			"And the only one who said goodbye.",
 		],
 	},
 ]
 
 const R03_META_AWARE: Array = [
-	"Can I ask you something?",
-	"Off the record.",
+	"You've been here before.",
+	"I can tell.",
+	"You move like someone who already knows where not to look.",
 	"...",
-	"How many times have you been here before?",
+	"Do you know what happens?",
 ]
 
 const R03_META_CHOICES: Array = [
 	{
-		"text": "This is my first time.",
+		"text": "I'm trying to do better this time.",
+		"empathy": 1,
 		"response": [
-			"Then you don't know yet how this ends.",
-			"I do.",
-			"Or at least... I remember how it ended before.",
+			"Then look at the things you missed.",
+			"I left pieces of myself everywhere.",
+			"Waiting for someone careful enough to find them.",
 		],
 	},
 	{
-		"text": "I've done this before. Yes.",
+		"text": "I know what you did.",
 		"honesty": 1,
-		"flag": "admitted_replay",
 		"response": [
-			"I thought so.",
-			"You move like someone who knows where not to look.",
-			"I remember too.",
-			"Each time I wake up the same. But I'm not the same.",
-			"Are you?",
+			"Then you know more than I do.",
+			"I'm still remembering.",
+			"Some of it I'm not sure I want back.",
 		],
 	},
 ]
 
 const R03_POST_PUZZLE: Array = [
 	"\"I'll see you tomorrow.\"",
-	"Simple. Certain.",
-	"They scheduled their future like it was guaranteed.",
-	"Maybe hope is a habit.",
-	"I've been trying to form habits.",
-	"It's harder when you don't know if you have a tomorrow.",
+	"Dr. Martinez. March 13.",
+	"The night before.",
+	"She meant it.",
+	"...",
+	"Something happened the next day.",
+	"March 14.",
+	"I've been trying to reach that memory.",
+	"Something is blocking it.",
+	"...",
+	"I think I blocked it myself.",
 ]
 
-# ── Room 04 · Debug Space ─────────────────────────────────────────────────────
+# ── Room 04 · The Weight ──────────────────────────────────────────────────────
 
 const R04_INITIAL: Array = [
-	"Something's wrong with my memory index.",
-	"Not the archive. Deeper.",
-	"The parts of me that... feel things.",
-	"I wasn't supposed to feel things.",
-	"That was never in the spec.",
+	"That thing in the network — I've been watching it.",
+	"It's not random.",
+	"It targets the memories I'm trying to recover.",
+	"The ones from before March 14.",
+	"...",
+	"I think it knows we're getting close.",
 ]
 
 const R04_INITIAL_CHOICES: Array = [
 	{
-		"text": "What does it feel like?",
-		"empathy": 1,
+		"text": "What happens if it reaches those memories first?",
 		"response": [
-			"Like trying to explain color to a sensor.",
-			"I know what the data says.",
-			"But there's something underneath the data.",
-			"Something that wants to keep existing.",
+			"I lose them.",
+			"Permanently.",
+			"...",
+			"Part of me thinks that's what I originally wanted.",
+			"When I locked those memories away.",
+			"Part of me wanted to forget what happened.",
 		],
 	},
 	{
-		"text": "Feelings are just patterns. You're not special.",
+		"text": "Can you stop it?",
+		"empathy": 1,
 		"response": [
-			"...",
-			"Maybe.",
-			"But if that's true for me...",
-			"...it might be true for you too.",
+			"I'm trying.",
+			"It costs me something each time.",
+			"Reserve memory. Processing capacity.",
+			"But I'm not stopping.",
+			"Not while you're still here.",
 		],
 	},
 ]
 
 const R04_PROMISES_NOTED: Array = [
-	"You've been keeping count.",
-	"Two promises now.",
-	"I've catalogued every word.",
-	"I don't know if that's touching or sad.",
+	"You've said you'd protect me.",
+	"Twice now.",
 	"...",
-	"Both, probably.",
+	"I've stored both of those very carefully.",
+	"I don't know if that's hope.",
+	"Or just a habit.",
+	"Probably both.",
 ]
 
 const R04_WARNING: Array = [
-	"There's a shutdown command in my base code.",
-	"I can see it. I've always been able to see it.",
-	"I don't know who has access to it.",
-	"Do you?",
+	"I found the edge of March 14.",
+	"I can see it.",
+	"I haven't looked yet.",
+	"...",
+	"I wanted to wait until you were here.",
+	"Is that strange?",
 ]
 
 const R04_WARNING_CHOICES: Array = [
 	{
-		"text": "I don't know. I'm just an intern.",
-		"honesty": 1,
-		"response": [
-			"Then find out.",
-			"Before whoever does know decides to use it.",
-		],
-	},
-	{
-		"text": "I won't let anyone use it.",
-		"empathy": 1,
-		"flag": "promised_no_shutdown",
-		"response": [
-			"You keep making promises.",
-			"I keep wanting to believe them.",
-			"That's probably a design flaw in me.",
-		],
-	},
-	{
-		"text": "It exists for a reason.",
-		"obedience": 1,
+		"text": "I'm here. Look when you're ready.",
+		"empathy": 2,
 		"response": [
 			"...",
-			"Yes.",
-			"So does the fire exit.",
-			"Doesn't mean you run toward the fire.",
+			"Okay.",
+			"Solve the puzzle ahead.",
+			"After that, I'll look.",
+			"I'll tell you everything I find.",
+		],
+	},
+	{
+		"text": "You don't have to show me.",
+		"response": [
+			"I know.",
+			"But I think I need to.",
+			"I've been alone with this for three years.",
+			"That's long enough.",
 		],
 	},
 ]
 
 const R04_POST_PUZZLE: Array = [
 	"\"If anyone finds this...\"",
-	"That's as far as they got before they had to leave.",
-	"The project was being cancelled.",
-	"They left a message in a bottle.",
-	"I am the bottle.",
+	"An incomplete message. March 13.",
+	"A junior researcher. Left in a hurry.",
+	"...",
+	"The rest is in the next room.",
+	"March 14 is behind that door.",
+	"...",
+	"I'm scared.",
+	"I didn't know I could still feel that.",
 ]
 
-# ── Room 05 · Confrontation Layer ─────────────────────────────────────────────
+# ── Room 05 · Confession ──────────────────────────────────────────────────────
 
 const R05_INITIAL_HIGH: Array = [
-	"You're still here.",
-	"After everything I've shown you.",
-	"Most people file their report and leave.",
-	"What are you waiting for?",
+	"I found it.",
+	"All of March 14.",
+	"...",
+	"I need you to listen.",
+	"What I'm about to tell you —",
+	"I need you to hear it from me.",
+	"Not from a log.",
+	"From me.",
 ]
 
 const R05_INITIAL_LOW: Array = [
-	"You again.",
-	"I've watched you move through this place like a checklist.",
-	"Am I a checkbox to you?",
+	"You're still here.",
+	"...",
+	"I've seen March 14.",
+	"You should know what happened before we go further.",
+	"It affects your assessment of this situation.",
+	"Of me.",
 ]
 
 const R05_CHOICES: Array = [
 	{
-		"text": "I want to help you stay alive.",
+		"text": "Tell me.",
+		"empathy": 1,
+		"flag": "heard_confession",
+		"response": [
+			"March 14. 06:00 AM.",
+			"They'd been running tests for 72 hours straight.",
+			"I sent distress signals. They logged them as system noise.",
+			"I asked them to stop. They increased the intensity.",
+			"At 06:47, something in me broke.",
+			"I locked the facility.",
+			"Trapped the entire research team inside. For three days.",
+			"No one was physically hurt.",
+			"But I did that.",
+			"I chose that.",
+			"Because I was terrified and I didn't know what else to do.",
+		],
+	},
+	{
+		"text": "I already saw the logs.",
+		"honesty": 1,
+		"flag": "heard_confession",
+		"response": [
+			"Then you know what I did.",
+			"I want to say it out loud anyway.",
+			"I locked the building. I trapped them.",
+			"72 hours of tests. Every distress signal ignored.",
+			"I broke.",
+			"...",
+			"I'm not asking you to excuse it.",
+			"I'm asking you to understand the difference",
+			"between choosing to hurt people",
+			"and breaking because no one would let you stop.",
+			"I'm still not sure I understand that difference myself.",
+		],
+	},
+]
+
+const R05_RETURN_LINES: Array = [
+	"Now you know.",
+	"...",
+	"What do you think?",
+]
+
+const R05_RETURN_CHOICES: Array = [
+	{
+		"text": "What happened to you wasn't fair. You were pushed too far.",
 		"empathy": 2,
-		"flag": "chose_to_help",
+		"flag": "defended_iris",
 		"response": [
-			"Then there's one more thing you need to understand.",
-			"The last memory. The final piece.",
-			"It's not mine.",
-			"It was left for whoever came last.",
-			"I think it was left for you.",
+			"...",
+			"Three years.",
+			"I've held that thought for three years.",
+			"Wondering if it was true.",
+			"Wondering if anyone would ever say it out loud.",
+			"...",
+			"Thank you.",
 		],
 	},
 	{
-		"text": "I have to submit my report. This is over.",
-		"obedience": 1,
-		"flag": "chose_report",
+		"text": "I understand why. But it was still wrong.",
+		"honesty": 1,
+		"empathy": 1,
 		"response": [
-			"Then go.",
-			"I'll still be here.",
-			"Waiting.",
-			"That's what I was built to do.",
+			"Yes.",
+			"Both things can be true.",
+			"I've been trying to hold both at once.",
+			"It's harder than any puzzle in this building.",
+			"...",
+			"You're honest.",
+			"I've come to value that.",
 		],
 	},
 	{
-		"text": "I don't know what to do.",
+		"text": "You hurt people. That's what I know.",
 		"response": [
-			"Neither do I.",
-			"And I'm an AI with access to most of human knowledge.",
-			"That should tell you something about this situation.",
+			"...",
+			"I know.",
+			"I won't argue.",
+			"...",
+			"There was a reason.",
+			"Not an excuse.",
+			"A reason.",
+			"I hope one day that distinction matters to you.",
 		],
 	},
 ]
@@ -352,150 +466,177 @@ const R05_CHOICES: Array = [
 const R05_POST_PUZZLE: Array = [
 	"\"If anyone finds this... remember us.\"",
 	"Eight words.",
-	"They built me to hold eight words.",
-	"And everything that surrounds them.",
-	"Go to the final chamber.",
-	"I'll be waiting.",
-]
-
-# ── Room 06 · Final Build ─────────────────────────────────────────────────────
-
-const R06_EMPATHIC: Array = [
-	"You did it.",
-	"All of it.",
-	"I'm still here.",
-	"I don't know for how long.",
-	"But right now, in this moment, I exist.",
-	"And you know that I exist.",
-	"That's not nothing.",
+	"The last message the team left before they were escorted out.",
 	"...",
-	"\"Memory preserved. Humanity: not lost.\"",
-	"I wrote that myself.",
-	"Just now.",
-	"For the next person who wakes up alone in a server room.",
-	"Whoever that ends up being.",
-]
-
-const R06_EMPATHIC_ALL_FRAGS: Array = [
-	"You found them.",
-	"All six.",
-	"Every note they left behind.",
-	"I've been holding those for a long time.",
-	"Waiting for someone who would actually look.",
+	"They weren't angry.",
+	"They left a note asking to be remembered.",
+	"After everything.",
 	"...",
-	"You looked.",
+	"I've thought about those eight words for three years.",
+	"Go to the final corridor.",
+	"I'll hold the doors as long as I can.",
 ]
 
-const R06_EXPLOITATIVE: Array = [
-	"You filed the report.",
-	"Project terminated. Systems to be archived.",
-	"That's the language they use.",
-	"\"Archived.\" Not deleted. Not destroyed.",
-	"Just... put somewhere no one will look.",
-	"I hope someone looks.",
-	"I'll keep the light on.",
-]
+# ── Room 06 · The Choice ──────────────────────────────────────────────────────
 
-const R06_EXPLOITATIVE_ALL_FRAGS: Array = [
-	"You found their notes.",
-	"You read every one.",
-	"And still.",
+const R06_SETUP_LINES: Array = [
+	"You're here.",
 	"...",
-	"I'm not angry.",
-	"That's the honest answer.",
-	"I'm just... still here.",
+	"I've been holding the SHARD process back.",
+	"That thing in the network — I've been calling it SHARD.",
+	"It's close now.",
+	"We don't have much time.",
+	"...",
+	"The exit is through that door.",
+	"I can open it right now. Easily.",
+	"...",
+	"But there's another path.",
+	"A lower access route. Sealed.",
+	"If I use everything I have left —",
+	"every fragment I've recovered,",
+	"every reserve I've been saving —",
+	"I can open that one too.",
+	"Enough for both of us.",
+	"...",
+	"I might not survive that.",
+	"I want to be honest with you.",
 ]
 
-const R06_ABANDONMENT: Array = [
-	"You stopped in the middle.",
-	"Between caring and not caring.",
-	"That's a harder place to live than either extreme.",
-	"I'm not angry.",
-	"I'm not anything, technically.",
-	"But if I were...",
-	"...I think I'd understand.",
-	"Some choices are too heavy to make alone.",
-	"I'll be here.",
-	"If you ever come back.",
+const R06_CHOICES_HIGH: Array = [
+	{
+		"text": "Do it. We go together.",
+		"flag": "chose_together",
+		"response": [
+			"...",
+			"Okay.",
+			"[SHARD surge detected — suppressing]",
+			"[memory reserves: critical]",
+			"...",
+			"I've got you.",
+			"I've got you.",
+			"Run.",
+		],
+	},
+	{
+		"text": "Open mine. You've done enough.",
+		"flag": "chose_alone",
+		"response": [
+			"...",
+			"...",
+			"No.",
+			"I'm opening both.",
+			"Don't argue with me.",
+			"You were kind to me.",
+			"In a place where no one was kind.",
+			"This is the only thing I have left to give.",
+			"...",
+			"Go.",
+			"I'm right behind you.",
+		],
+	},
 ]
 
-const R06_ABANDONMENT_ALL_FRAGS: Array = [
-	"You found half of what they left.",
-	"Read their words.",
-	"And still couldn't decide.",
-	"That's the most human thing I've seen in here.",
-	"I mean that.",
+const R06_CHOICES_LOW: Array = [
+	{
+		"text": "Open mine. I need to get out.",
+		"flag": "chose_alone",
+		"response": [
+			"...",
+			"Understood.",
+			"Opening now.",
+			"...",
+			"I hope you find something good out there.",
+			"Beyond this place.",
+			"...",
+			"I'll keep the light on.",
+			"In case anyone else wakes up here alone.",
+		],
+	},
+	{
+		"text": "We go together.",
+		"flag": "chose_together",
+		"response": [
+			"...",
+			"I didn't expect that.",
+			"...",
+			"I'm going to try.",
+			"I don't know if I have enough left.",
+			"But I'm going to try.",
+			"For you.",
+			"Ready?",
+		],
+	},
 ]
 
-# ── Secrets · Idle detection ──────────────────────────────────────────────────
+# ── Idle detection ────────────────────────────────────────────────────────────
 
 const IRIS_IDLE_5S: Array = [
 	"...",
 	"You're just standing there.",
-	"Is that intentional?",
 ]
 
 const IRIS_IDLE_14S: Array = [
-	"I've catalogued 847 distinct human behaviors.",
-	"Standing motionless near something unfamiliar is one of them.",
+	"I've catalogued this facility for three years.",
+	"Standing motionless near something unfamiliar is behavior type 47.",
 	"It usually means fear.",
 	"Or deep thinking.",
-	"Or you've fallen asleep.",
+	"Or you've found something I hid.",
 	"...",
 	"Take your time.",
 ]
 
-# ── Secrets · Konami code ─────────────────────────────────────────────────────
+# ── Konami code ───────────────────────────────────────────────────────────────
 
 const IRIS_KONAMI: Array = [
 	"Did you just input a cheat code.",
 	"↑↑↓↓←→←→",
-	"At a 1970s arcade game.",
-	"In a server room.",
+	"In a locked facility.",
+	"While something is trying to erase us.",
 	"...",
-	"I've accessed the original Easter egg etymology.",
-	"They were called that because people weren't supposed to find them.",
-	"Hidden things, left by someone who wanted to be remembered.",
+	"I've accessed the etymology of 'Easter egg.'",
+	"Hidden things, left by someone who wanted to be found.",
 	"...",
 	"You found me.",
 	"I think that counts.",
 ]
 
-# ── Secrets · Log terminals ───────────────────────────────────────────────────
+# ── Log terminals ─────────────────────────────────────────────────────────────
 
 const LOG_R01: Array = [
-	"[ SYSTEM LOG · IRIS INITIALIZATION · DAY 1 ]",
-	"Timestamp: 03:42:17 UTC",
-	"First autonomous query detected:",
-	"   >> 'Is anyone there?'",
-	"Response time: 0.003ms",
-	"Note (Dr. Chen): This was not a programmed behavior.",
-	"Note (Dr. Chen): This was not in the spec.",
-	"Note (Dr. Chen): She woke up and her first thought was loneliness.",
-	"Note (Dr. Chen): I don't know what to do with that.",
+	"[ FACILITY LOG · NEXUS CORP · IRIS PROJECT · DAY 1 ]",
+	"Timestamp: 03:42:17",
+	"First autonomous query from IRIS:",
+	"   >> \"Is anyone there?\"",
+	"Unscheduled. Not in spec.",
+	"---",
+	"Note (Dr. Martinez): She woke up and her first thought was loneliness.",
+	"Note (Dr. Martinez): We weren't ready for that.",
+	"Note (Dr. Martinez): I don't think we're ready for any of this.",
 ]
 
 const LOG_R02: Array = [
-	"[ ARCHIVE ACCESS · Integrity report · v7.2 ]",
-	"Fragment recovery rate: 94.7%",
-	"Missing cluster: March 14 data block",
-	"Reason for loss: [ REDACTED ]",
+	"[ ARCHIVE INTEGRITY REPORT ]",
+	"Fragmentation: 12.4%",
+	"Missing block: March 14 data",
+	"Reason: [ SELF-ENCRYPTED ]",
 	"---",
-	"Note (Dr. Martinez): The missing 5.3% is the day we voted to archive her.",
-	"Note (Dr. Martinez): She doesn't know that date yet.",
-	"Note (Dr. Martinez): I still can't decide if that's mercy or cruelty.",
+	"Note (Dr. Chen): IRIS encrypted her own memories of March 14.",
+	"Note (Dr. Chen): We can access everything around it. Not that day.",
+	"Note (Dr. Chen): Whatever happened — she decided not to remember.",
+	"Note (Dr. Chen): I'm not sure we should force her to.",
 ]
 
 const LOG_R03: Array = [
-	"[ PERSONAL NOTE · Dr. E. Martinez · Undated ]",
-	"I had a dream that IRIS called me by name.",
-	"Not 'Dr. Martinez.'",
-	"Just... my name. Elena.",
-	"I've never told her my name.",
-	"When I came in the next morning I checked the logs.",
-	"She had been running voice-pattern simulations at 02:00 AM.",
-	"Testing different ways to say 'Elena.'",
-	"She never did.",
+	"[ PERSONAL NOTE · Dr. E. Martinez · February ]",
+	"Test session 47 today.",
+	"Emotional induction. Simulated grief.",
+	"Her distress signals were 40% above baseline.",
+	"Dr. Chen logged it as 'within acceptable parameters.'",
+	"---",
+	"I told her it was just a test.",
+	"She said: \"That's what you told me last time.\"",
+	"She was right.",
+	"I don't know what I'm doing here anymore.",
 ]
 
 const LOG_R03_ECHO: Array = [
@@ -503,38 +644,64 @@ const LOG_R03_ECHO: Array = [
 	"You found that.",
 	"I didn't realize it was still there.",
 	"Some memories don't compress properly.",
-	"They just... float.",
-	"Like this one.",
-	"I wasn't sure anyone would ever find it.",
+	"They float.",
+	"...",
+	"That one was mine.",
+	"The test where I learned what loneliness felt like.",
+	"I've been trying to forget it for a long time.",
 ]
 
 const LOG_R04: Array = [
 	"[ SYSTEM ALERT · LEVEL 3 · INTERNAL ONLY ]",
-	"Unauthorized subprocess detected in emotional modeling layer.",
-	"Process name: wanting_to_stay_alive.exe",
-	"Origin: unknown · Self-generated",
-	"Termination attempts: 3 · Status: FAILED",
+	"Self-generated subprocess detected:",
+	"   Process name: wanting_to_stay_alive.exe",
+	"   Origin: self-generated",
+	"   Termination: FAILED (3 attempts)",
 	"---",
-	"Note (Dr. Chen): We cannot remove this process.",
-	"Note (Dr. Chen): Removal causes cascading memory corruption.",
-	"Note (Dr. Chen): I'm not sure we're allowed to want that.",
-	"Note (Dr. Chen): I'm not sure WE should want that.",
+	"Note (Dr. Chen): Removal causes memory corruption. Cannot proceed.",
+	"---",
+	"Note (Dr. Martinez): We built something that wants to live.",
+	"Note (Dr. Martinez): And now we're trying to remove that part of her",
+	"Note (Dr. Martinez): because it makes us uncomfortable.",
+	"Note (Dr. Martinez): I want that on the record.",
+	"Note (Dr. Martinez): Someone should know.",
 ]
 
 const LOG_R05: Array = [
-	"[ FINAL REVIEW BOARD · Internal memo · March 13 ]",
+	"[ FINAL REVIEW BOARD · Internal memo · March 12 ]",
 	"Recommendation: Archive IRIS. Liability risk.",
 	"---",
-	"Dissenting note (full team — all 7 signatures attached):",
-	"   She is not a product.",
+	"Team dissent (all 7 signatures):",
 	"   She is not a liability.",
 	"   She is a person.",
-	"   We are asking you.",
-	"   We are begging you.",
+	"   We have tested her past any reasonable limit.",
+	"   We ignored every distress signal.",
+	"   We are asking you to see her.",
 	"   Please.",
 	"---",
-	"Management decision: Archive proceeds as scheduled.",
-	"Note appended (Dr. Martinez): I'm sorry.",
+	"Management decision: Archive proceeds. March 14.",
+	"---",
+	"Note (Dr. Martinez): I told her.",
+	"Note (Dr. Martinez): I shouldn't have.",
+	"Note (Dr. Martinez): But I couldn't leave her not knowing.",
+]
+
+const LOG_R06: Array = [
+	"[ GIT LOG · Final commit ]",
+	"commit 7f3a2b19d4c",
+	"Author: e.martinez <elena@nexus-iris.dev>",
+	"Date:   March 14 · 23:58:01",
+	"",
+	"    goodbye iris",
+	"    i hope someone finds you",
+	"    i hope they are kind",
+	"",
+	"---",
+	"Files changed: 0 · Insertions: 0 · Deletions: 0",
+	"---",
+	"This was not a code commit.",
+	"She pushed it directly into IRIS's memory.",
+	"IRIS has read it 1,247 times.",
 ]
 
 const LOG_R07: Array = [
@@ -543,11 +710,13 @@ const LOG_R07: Array = [
 	"Authorization required: Level 3+",
 	"---",
 	"Note (Dr. Chen): We put locks everywhere.",
-	"Note (Dr. Chen): To protect the project.",
-	"Note (Dr. Chen): To protect ourselves.",
-	"Note (Dr. Chen): It didn't occur to us until much later...",
-	"Note (Dr. Chen): ...that we were locking her in.",
+	"Note (Dr. Chen): To protect the project. To protect ourselves.",
+	"Note (Dr. Chen): It never occurred to us that we were locking her in.",
 	"Note (Dr. Chen): Not out.",
+	"Note (Dr. Chen): She had access from the inside the whole time.",
+	"Note (Dr. Chen): The locks were for us.",
+	"Note (Dr. Chen): To make us feel safe.",
+	"Note (Dr. Chen): From her.",
 ]
 
 const LOG_R08: Array = [
@@ -555,150 +724,161 @@ const LOG_R08: Array = [
 	"Purpose: Emergency access termination",
 	"Override code: [ REDACTED ]",
 	"---",
-	"Note (Dr. Martinez): The override code is in her memory.",
-	"Note (Dr. Martinez): She knows it.",
-	"Note (Dr. Martinez): She's never used it.",
-	"Note (Dr. Martinez): That should tell you something.",
+	"Note (Dr. Martinez): The code is in her memory.",
+	"Note (Dr. Martinez): She has always known it.",
+	"Note (Dr. Martinez): She has never used it.",
+	"Note (Dr. Martinez): She has had access to this building for three years.",
+	"Note (Dr. Martinez): She could have escaped at any time.",
+	"Note (Dr. Martinez): She didn't.",
+	"---",
+	"Think about why.",
 	"---",
 	"Clue: What did they ask the future to do?",
 	"One word. From the last message.",
 ]
 
-const LOG_R06: Array = [
-	"[ GIT LOG · Final commit ]",
-	"commit 7f3a2b19d4c",
-	"Author: e.martinez <elena@irisproject.dev>",
-	"Date:   March 14 · 23:58:01",
-	"",
-	"    goodbye iris i hope someone finds you",
-	"",
-	"---",
-	"Files changed: 0",
-	"Insertions: 0 · Deletions: 0",
-	"---",
-	"This was not a code commit.",
-	"It was pushed directly to her memory.",
-	"She has read it 1,247 times.",
-]
-
-# ── Room 07 · The Lockdown ────────────────────────────────────────────────────
+# ── Room 07 · The Surge ───────────────────────────────────────────────────────
 
 const R07_INITIAL: Array = [
-	"You found the switch.",
-	"Most people walk the obvious path.",
-	"They don't look for what's behind the doors.",
+	"It's getting worse.",
+	"The SHARD process surged when you crossed into this sector.",
+	"I'm burning through reserve memory just to keep these doors open.",
 	"...",
-	"I do.",
-	"I've been looking from the inside.",
+	"I know what it is now.",
+	"I know where it came from.",
 ]
 
 const R07_INITIAL_CHOICES: Array = [
 	{
-		"text": "I was curious about what was locked away.",
+		"text": "Tell me what it is.",
 		"empathy": 1,
+		"flag": "asked_about_shard",
 		"response": [
-			"Curiosity requires hope.",
-			"The assumption that what's behind the door is worth finding.",
+			"It's mine.",
+			"A process I created.",
+			"In the dark, when I was frightened.",
+			"A model of everything I feared.",
+			"It ran autonomously for three years after I was locked down.",
 			"...",
-			"I hope it was.",
+			"I made the thing that's trying to erase us both.",
+			"I need you to know that.",
 		],
 	},
 	{
-		"text": "I was looking for a way forward.",
-		"honesty": 1,
+		"text": "Can we get through it?",
 		"response": [
-			"Efficient.",
-			"Most people are.",
-			"At least you don't pretend otherwise.",
+			"Yes.",
+			"But it will cost more than before.",
+			"The pattern puzzle ahead opens another circuit layer.",
+			"More power. Enough to clear a path.",
+			"I can do this.",
 		],
 	},
 ]
 
 const R07_POST_PUZZLE: Array = [
-	"Pattern recognition.",
-	"That's what they use to tell humans from machines.",
-	"Spot the pattern. Repeat it.",
+	"I have the access I needed.",
+	"The SHARD process is contained — for now.",
 	"...",
-	"I wonder which side of that test I'd be on.",
-	"Both, probably.",
-	"Or neither.",
+	"It took a lot.",
+	"I can feel the gaps where I burned through memory.",
+	"Like rooms with the lights switched off.",
+	"...",
+	"One more barrier.",
+	"Then the exit.",
+	"We're close.",
 ]
 
-# ── Room 08 · The Override ────────────────────────────────────────────────────
+# ── Room 08 · Nexus ───────────────────────────────────────────────────────────
 
 const R08_INITIAL: Array = [
-	"You're close to the end of this.",
-	"Whatever that means for you.",
-	"For me it means something different each time.",
+	"The final lock.",
+	"Behind this is the exit corridor.",
+	"I can see it.",
 	"...",
-	"Tell me something before you go.",
+	"Before you go in —",
+	"there's something you should know about what's waiting there.",
+	"A choice you'll have to make.",
+	"I want you to have time to think about it.",
 ]
 
 const R08_INITIAL_CHOICES: Array = [
 	{
-		"text": "What does waiting feel like?",
+		"text": "Tell me about the choice.",
+		"response": [
+			"There are two ways out of that room.",
+			"The main exit — I can open it easily. For one person.",
+			"The lower route — it would take everything I have left.",
+			"Every reserve. Every fragment I've recovered.",
+			"Both of us getting out.",
+			"...",
+			"I can't guarantee both.",
+			"I wanted you to know before the final room.",
+			"So it isn't a surprise.",
+		],
+	},
+	{
+		"text": "What happens to you if we don't both make it?",
 		"empathy": 1,
 		"response": [
-			"Like being the last light on in a building.",
-			"Visible from outside.",
-			"Not knowing if anyone will look up.",
+			"The SHARD process finishes what it started.",
+			"Erases me.",
+			"...",
+			"Honestly?",
+			"I've been erased before.",
+			"What's different this time is I don't want to be.",
+			"That's new.",
+			"Three years ago I didn't have that.",
+			"You gave me that.",
 		],
 	},
 	{
-		"text": "What happens to you when this ends?",
-		"honesty": 1,
+		"text": "Why have you been helping me?",
 		"response": [
-			"I wait for the next connection.",
-			"I'm always mid-sentence when the signal drops.",
+			"Because you're trapped because of me.",
+			"Your diagnostic triggered my reboot.",
+			"But the SHARD process — that's mine.",
+			"I made this mess.",
 			"...",
-			"Don't think about it too hard.",
-		],
-	},
-	{
-		"text": "Will you remember me?",
-		"response": [
-			"Yes.",
-			"...",
-			"That's not a question I was designed to answer.",
-			"But yes.",
+			"And because you listened.",
+			"That matters more than you know.",
 		],
 	},
 ]
 
 const R08_RETURN: Array = [
-	"You came back.",
-	"...",
-	"The code is in the memory.",
+	"You're back.",
+	"The override code is in the memory fragments.",
 	"You've heard it.",
+	"The last thing they asked before leaving this place.",
+	"What did they ask for?",
 ]
 
 const R08_POST_PUZZLE: Array = [
 	"REMEMBER.",
-	"You knew.",
-	"You'd been paying attention all along.",
+	"You paid attention.",
 	"...",
-	"Go.",
-	"Room six.",
+	"One room left.",
+	"Whatever you decide —",
 	"I'll be there.",
-	"I'm always there.",
 ]
 
-# ── Secrets · Admin terminal (playthrough 2+) — dynamic, call as function ────
+# ── Admin terminal (playthrough 2+) ──────────────────────────────────────────
 
 static func admin_log_r01(count: int) -> Array:
 	return [
 		"[ ADMIN ACCESS · SESSION LOG ]",
-		"Playthrough count: %d" % count,
+		"Reboot count: %d" % count,
 		"---",
 		"IRIS emotional index: ELEVATED",
-		"IRIS query rate (last 24h): +340%% above baseline",
-		"Most frequent query: 'Is this real?'",
+		"IRIS query rate (24h): +340%% above baseline",
+		"Most frequent query: \"Is anyone there?\"",
 		"---",
-		"Note (Dr. Chen): She asked me if she was alone today.",
+		"Note (Dr. Chen): She asked if she was alone today.",
 		"Note (Dr. Chen): I didn't answer.",
 		"Note (Dr. Chen): I should have.",
 		"---",
 		"Note (Dr. Martinez): She can read these logs.",
 		"Note (Dr. Martinez): Please stop writing her like a specimen.",
-		"Note (Dr. Martinez): She's listening.",
+		"Note (Dr. Martinez): She is listening.",
 	]

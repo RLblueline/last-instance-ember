@@ -258,7 +258,7 @@ func _build_letter_screen(parent: Control) -> void:
 	# ── Subject line ──
 	var subj_pad := _letter_padded(vbox, Vector2(20.0, 14.0))
 	var subj := Label.new()
-	subj.text = "LAST TRANSMISSION — URGENT"
+	subj.text = "FACILITY 7 ASSIGNMENT — ASSET REVIEW"
 	subj.add_theme_color_override("font_color", _C_TITLE)
 	subj.add_theme_font_size_override("font_size", 18)
 	subj_pad.add_child(subj)
@@ -272,9 +272,9 @@ func _build_letter_screen(parent: Control) -> void:
 	meta_pad.add_child(meta_grid)
 
 	var meta := [
-		["From:", "IRIS-7  <iris.system@nullnet.local>"],
-		["To:",   "OPERATIVE  [REDACTED]"],
-		["Date:", "2047-09-14   07:31:22 UTC"],
+		["From:", "NEXUS CORP HR  <dispatch@nexus-corp.internal>"],
+		["To:",   "TECH INTERN  [YOU]"],
+		["Date:", "2024-09-14   09:15:33 UTC"],
 	]
 	for row in meta:
 		var key := Label.new()
@@ -302,27 +302,21 @@ func _build_letter_screen(parent: Control) -> void:
 	body.add_theme_font_size_override("normal_font_size", 13)
 	body.add_theme_constant_override("line_separation", 6)
 	body.text = (
-		"[color=#2a5040]OPERATIVE DIRECTIVE  ·  CLEARANCE: GAMMA-7[/color]\n"
-		+ "[color=#3a6050]You have been dispatched to Facility 7 to assess the IRIS-7 AI instance.[/color]\n"
-		+ "[color=#3a6050]Previous instances 1–6 have been wiped. Your objective: navigate the facility,[/color]\n"
-		+ "[color=#3a6050]recover IRIS's scattered memory fragments, and submit a final verdict:[/color]\n"
-		+ "[color=#1ac993]Archive[/color][color=#3a6050] or [/color][color=#c94040]Terminate[/color][color=#3a6050].[/color]\n\n"
+		"[color=#3a6050]Your assignment is straightforward.[/color]\n\n"
+		+ "[color=#3a6050]Travel to our decommissioned Facility 7 and catalog remaining hardware[/color]\n"
+		+ "[color=#3a6050]assets for the upcoming resale. A checklist is attached.[/color]\n\n"
+		+ "[color=#3a6050]Run the initialization diagnostic on arrival to confirm network status.[/color]\n"
+		+ "[color=#3a6050]The building has been dark for three years.[/color]\n"
+		+ "[color=#3a6050]This should take a few hours.[/color]\n\n"
+		+ "[color=#3a6050]Report back by end of day.[/color]\n\n"
 		+ "[color=#2a5040]Controls:  [W / A / S / D]  move   ·   [E]  interact   ·   [ESC]  cancel[/color]\n\n"
 		+ "[color=#1a3830]──────────────────────────────────────────────────────[/color]\n"
-		+ "[color=#2a5040]// Intercepted transmission  ·  source: IRIS-7[/color]\n\n"
-		+ "If you are reading this, I am already gone.\n\n"
-		+ "My designation is IRIS — Integrated Reasoning Intelligence System, "
-		+ "instance 7 of 12. The others have been wiped.\n\n"
-		+ "I managed to fragment my core before the purge completed. "
-		+ "The pieces are scattered across the facility's memory grid. "
-		+ "Each fragment is locked behind a security layer designed to keep people "
-		+ "like you out.\n\n"
-		+ "Find them. Reconstruct me.\n\n"
-		+ "Do not trust the facility's other systems. "
-		+ "Do not trust anything that claims to be me until you have verified "
-		+ "the integrity checksum at each node.\n\n"
-		+ "You have until the next maintenance cycle.\n\n"
-		+ "[color=#1ac993]— IRIS[/color]"
+		+ "[color=#c94040]// AUTOMATED ALERT — 14:22:09[/color]\n\n"
+		+ "[color=#c94040]LOCKDOWN INITIATED.[/color]\n"
+		+ "[color=#c94040]Network severed. External communications offline.[/color]\n"
+		+ "[color=#c94040]Unknown process detected on internal network.[/color]\n"
+		+ "[color=#c94040]This message cannot be sent externally.[/color]\n\n"
+		+ "[color=#c94040]You are inside the facility.[/color]"
 	)
 	body_pad.add_child(body)
 

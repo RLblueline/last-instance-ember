@@ -130,7 +130,7 @@ func _fill_initial(lines: Array, choices: Array) -> void:
 			choices.assign(IRISData.R08_INITIAL_CHOICES)
 		"room_06":
 			trigger_glitch()
-			_fill_ending(lines)
+			_fill_ending(lines, choices)
 		_:
 			lines.append("...")
 
@@ -141,27 +141,20 @@ func _fill_return(lines: Array, _choices: Array) -> void:
 		"room_04":
 			lines.assign(IRISData.R04_WARNING)
 			_choices.assign(IRISData.R04_WARNING_CHOICES)
+		"room_05":
+			if GameState.get_flag("heard_confession"):
+				lines.assign(IRISData.R05_RETURN_LINES)
+				_choices.assign(IRISData.R05_RETURN_CHOICES)
+			else:
+				lines.append("...")
 		"room_08":
 			lines.assign(IRISData.R08_RETURN)
 		_:
 			lines.append("...")
 
-func _fill_ending(lines: Array) -> void:
-	var ending := GameState.get_ending()
-	var all_frags := GameState.all_fragments_collected()
-	match ending:
-		"empathic":
-			if all_frags:
-				lines.assign(IRISData.R06_EMPATHIC_ALL_FRAGS + IRISData.R06_EMPATHIC)
-			else:
-				lines.assign(IRISData.R06_EMPATHIC)
-		"exploitative":
-			if all_frags:
-				lines.assign(IRISData.R06_EXPLOITATIVE_ALL_FRAGS + IRISData.R06_EXPLOITATIVE)
-			else:
-				lines.assign(IRISData.R06_EXPLOITATIVE)
-		_:
-			if all_frags:
-				lines.assign(IRISData.R06_ABANDONMENT_ALL_FRAGS + IRISData.R06_ABANDONMENT)
-			else:
-				lines.assign(IRISData.R06_ABANDONMENT)
+func _fill_ending(lines: Array, choices: Array) -> void:
+	lines.assign(IRISData.R06_SETUP_LINES)
+	if GameState.empathy_score >= 4:
+		choices.assign(IRISData.R06_CHOICES_HIGH)
+	else:
+		choices.assign(IRISData.R06_CHOICES_LOW)
