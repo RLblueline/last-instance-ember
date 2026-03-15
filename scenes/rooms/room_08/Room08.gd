@@ -28,8 +28,10 @@ func _setup_room() -> void:
 	# ── Switches ───────────────────────────────────────────────────────────
 	# Switch 1: lower-left — accessible immediately from spawn
 	_switch_panel(Vector2(200.0, 680.0), ["lock_a"], "[E] Override lock A")
+	_guide_arrow(Vector2(200.0, 680.0), "OVERRIDE A")
 	# Switch 2: upper-middle — accessible after lock_a opens
 	_switch_panel(Vector2(600.0, 140.0), ["lock_b"], "[E] Override lock B")
+	_guide_arrow(Vector2(600.0, 140.0), "OVERRIDE B")
 
 	# ── Circuit traces ─────────────────────────────────────────────────────
 	_circuit_trace(Vector2(55.0,  680.0), Vector2(190.0, 680.0))
@@ -53,6 +55,8 @@ func _setup_room() -> void:
 	# ── Puzzle — right zone, accessible after lock_b opens ───────────────
 	_puzzle_zone(Vector2(1050.0, 380.0), "sequence_input", PUZZLE_DATA,
 			"override_code", "[E] Enter override code")
+	if not GameState.is_puzzle_done("override_code"):
+		_guide_arrow(Vector2(1050.0, 380.0), "PUZZLE")
 
 	# ── Secrets ────────────────────────────────────────────────────────────
 	# Log terminal: upper-left (accessible from start — hints at the code)

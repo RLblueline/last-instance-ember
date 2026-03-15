@@ -57,8 +57,12 @@ func _setup_room() -> void:
 	_spawn_iris(Vector2(640.0, 400.0), "room_05")
 	_puzzle_zone(Vector2(200.0, 680.0), "memory_assembly", PUZZLE_MEMORY,
 			"remember_us_memory", "[E] Sort final memory")
+	if not GameState.is_puzzle_done("remember_us_memory"):
+		_guide_arrow(Vector2(200.0, 680.0), "PUZZLE 1")
 	_puzzle_zone(Vector2(1050.0, 160.0), "message_reconstruction", PUZZLE_MSG,
 			"final_message", "[E] Reconstruct final message")
+	if not GameState.is_puzzle_done("final_message"):
+		_guide_arrow(Vector2(1050.0, 160.0), "PUZZLE 2")
 
 	# ── Secrets ──────────────────────────────────────────────────────────
 	# Log terminal: upper zone above Wall A (through right gap) — hard to reach

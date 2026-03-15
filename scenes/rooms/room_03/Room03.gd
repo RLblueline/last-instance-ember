@@ -41,6 +41,8 @@ func _setup_room() -> void:
 	_spawn_iris(Vector2(260.0, 240.0), "room_03")
 	_puzzle_zone(Vector2(1050.0, 240.0), "message_reconstruction", PUZZLE_DATA,
 			"tomorrow_message", "[E] Decode memory fragment")
+	if not GameState.is_puzzle_done("tomorrow_message"):
+		_guide_arrow(Vector2(1050.0, 240.0), "PUZZLE")
 
 	# ── Secrets ─────────────────────────────────────────────────────────────
 	# Log terminal: lower-right, accessible from below the wall

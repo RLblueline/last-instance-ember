@@ -28,6 +28,7 @@ func _setup_room() -> void:
 	_door(Rect2(500.0, 580.0, 36.0, 180.0), "gate_a")
 	# Switch: lower-left area — player naturally finds it near spawn
 	_switch_panel(Vector2(300.0, 660.0), ["gate_a"], "[E] Release gate")
+	_guide_arrow(Vector2(300.0, 660.0), "UNLOCK GATE")
 
 	# ── Circuit traces ─────────────────────────────────────────────────────
 	_circuit_trace(Vector2(55.0,  580.0), Vector2(300.0, 580.0))
@@ -48,6 +49,8 @@ func _setup_room() -> void:
 	# ── Puzzle — right zone, upper (past the vertical pillar) ─────────────
 	_puzzle_zone(Vector2(900.0, 280.0), "pattern_lock", PUZZLE_DATA,
 			"vault_sequence", "[E] Run pattern sequence")
+	if not GameState.is_puzzle_done("vault_sequence"):
+		_guide_arrow(Vector2(900.0, 280.0), "PUZZLE")
 
 	# ── Secrets ────────────────────────────────────────────────────────────
 	_log_terminal(Vector2(900.0, 660.0), IRISData.LOG_R07)

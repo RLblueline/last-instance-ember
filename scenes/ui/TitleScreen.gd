@@ -10,9 +10,10 @@ const _C_ACCENT := Color(0.10, 0.78, 0.58)
 const _C_MUTED  := Color(0.28, 0.38, 0.33)
 const _C_DANGER := Color(0.82, 0.22, 0.12)
 
-var _continue_btn: Button  = null
-var _opts_panel:   Control = null
-var _wipe_panel:   Control = null
+var _continue_btn:  Button  = null
+var _opts_panel:    Control = null
+var _wipe_panel:    Control = null
+var _letter_overlay: Control = null
 
 func _ready() -> void:
 	var cl := CanvasLayer.new()
@@ -34,6 +35,7 @@ func _ready() -> void:
 	_build_main_btns(root)
 	_build_opts_panel(root)
 	_build_wipe_panel(root)
+	_build_letter_screen(root)
 
 	# Scanlines — same as in-game
 	var sl: Node = load("res://scenes/effects/ScanlineLayer.gd").new()
@@ -179,6 +181,10 @@ func _build_wipe_panel(parent: Control) -> void:
 # ── Callbacks ─────────────────────────────────────────────────────────────────
 
 func _on_new_game() -> void:
+	_letter_overlay.visible = true
+
+func _on_letter_acknowledged() -> void:
+	_letter_overlay.visible = false
 	GameState.reset()
 	GameState.current_room_id = "room_01"
 	GameState.save()
@@ -193,6 +199,178 @@ func _on_opts() -> void:
 
 func _on_wipe_request() -> void:
 	_wipe_panel.get_parent().visible = true
+
+# ── Letter / intro screen ─────────────────────────────────────────────────────
+
+func _build_letter_screen(parent: Control) -> void:
+	# Full-screen dim backdrop
+	_letter_overlay = ColorRect.new()
+	_letter_overlay.color = Color(0.0, 0.0, 0.0, 0.72)
+	_letter_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_letter_overlay.visible = false
+	parent.add_child(_letter_overlay)
+
+	# Email card — 660 px wide, centred on 1280×800
+	const CARD_W := 648.0
+	const CARD_X := (1152 - CARD_W) / 2.0
+	const CARD_Y := 20
+
+	var card := PanelContainer.new()
+	card.custom_minimum_size = Vector2(CARD_W, 0.0)
+	card.position = Vector2(CARD_X, CARD_Y)
+
+	var card_sb := StyleBoxFlat.new()
+	card_sb.bg_color              = Color(0.03, 0.06, 0.05)
+	card_sb.border_color          = Color(_C_ACCENT.r, _C_ACCENT.g, _C_ACCENT.b, 0.55)
+	card_sb.border_width_left     = 1
+	card_sb.border_width_right    = 1
+	card_sb.border_width_top      = 1
+	card_sb.border_width_bottom   = 1
+	card_sb.content_margin_left   = 0.0
+	card_sb.content_margin_right  = 0.0
+	card_sb.content_margin_top    = 0.0
+	card_sb.content_margin_bottom = 0.0
+	card.add_theme_stylebox_override("panel", card_sb)
+	_letter_overlay.add_child(card)
+
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 0)
+	card.add_child(vbox)
+
+	# ── Inbox toolbar ──
+	var toolbar := _letter_hbox(vbox, Color(_C_ACCENT.r, _C_ACCENT.g, _C_ACCENT.b, 0.08),
+			Vector2(16.0, 10.0))
+	var inbox_lbl := Label.new()
+	inbox_lbl.text = "INBOX  ·  1 UNREAD"
+	inbox_lbl.add_theme_color_override("font_color", Color(_C_ACCENT.r, _C_ACCENT.g, _C_ACCENT.b, 0.65))
+	inbox_lbl.add_theme_font_size_override("font_size", 10)
+	inbox_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	toolbar.add_child(inbox_lbl)
+
+	var dot := Label.new()
+	dot.text = "●"
+	dot.add_theme_color_override("font_color", _C_ACCENT)
+	dot.add_theme_font_size_override("font_size", 8)
+	toolbar.add_child(dot)
+
+	_letter_hsep(vbox, 0.18)
+
+	# ── Subject line ──
+	var subj_pad := _letter_padded(vbox, Vector2(20.0, 14.0))
+	var subj := Label.new()
+	subj.text = "LAST TRANSMISSION — URGENT"
+	subj.add_theme_color_override("font_color", _C_TITLE)
+	subj.add_theme_font_size_override("font_size", 18)
+	subj_pad.add_child(subj)
+
+	# ── Meta fields (From / To / Date) ──
+	var meta_pad := _letter_padded(vbox, Vector2(20.0, 10.0))
+	var meta_grid := GridContainer.new()
+	meta_grid.columns = 2
+	meta_grid.add_theme_constant_override("h_separation", 10)
+	meta_grid.add_theme_constant_override("v_separation", 4)
+	meta_pad.add_child(meta_grid)
+
+	var meta := [
+		["From:", "IRIS-7  <iris.system@nullnet.local>"],
+		["To:",   "OPERATIVE  [REDACTED]"],
+		["Date:", "2047-09-14   07:31:22 UTC"],
+	]
+	for row in meta:
+		var key := Label.new()
+		key.text = row[0]
+		key.add_theme_color_override("font_color", _C_MUTED)
+		key.add_theme_font_size_override("font_size", 11)
+		meta_grid.add_child(key)
+
+		var val := Label.new()
+		val.text = row[1]
+		val.add_theme_color_override("font_color", Color(_C_ACCENT.r, _C_ACCENT.g, _C_ACCENT.b, 0.80))
+		val.add_theme_font_size_override("font_size", 11)
+		meta_grid.add_child(val)
+
+	_letter_hsep(vbox, 0.20)
+
+	# ── Body ──
+	var body_pad := _letter_padded(vbox, Vector2(24.0, 18.0))
+	var body := RichTextLabel.new()
+	body.bbcode_enabled      = true
+	body.fit_content         = false
+	body.scroll_active       = true
+	body.custom_minimum_size = Vector2(CARD_W - 48.0, 340.0)
+	body.add_theme_color_override("default_color", Color(0.72, 0.90, 0.82))
+	body.add_theme_font_size_override("normal_font_size", 13)
+	body.add_theme_constant_override("line_separation", 6)
+	body.text = (
+		"[color=#2a5040]OPERATIVE DIRECTIVE  ·  CLEARANCE: GAMMA-7[/color]\n"
+		+ "[color=#3a6050]You have been dispatched to Facility 7 to assess the IRIS-7 AI instance.[/color]\n"
+		+ "[color=#3a6050]Previous instances 1–6 have been wiped. Your objective: navigate the facility,[/color]\n"
+		+ "[color=#3a6050]recover IRIS's scattered memory fragments, and submit a final verdict:[/color]\n"
+		+ "[color=#1ac993]Archive[/color][color=#3a6050] or [/color][color=#c94040]Terminate[/color][color=#3a6050].[/color]\n\n"
+		+ "[color=#2a5040]Controls:  [W / A / S / D]  move   ·   [E]  interact   ·   [ESC]  cancel[/color]\n\n"
+		+ "[color=#1a3830]──────────────────────────────────────────────────────[/color]\n"
+		+ "[color=#2a5040]// Intercepted transmission  ·  source: IRIS-7[/color]\n\n"
+		+ "If you are reading this, I am already gone.\n\n"
+		+ "My designation is IRIS — Integrated Reasoning Intelligence System, "
+		+ "instance 7 of 12. The others have been wiped.\n\n"
+		+ "I managed to fragment my core before the purge completed. "
+		+ "The pieces are scattered across the facility's memory grid. "
+		+ "Each fragment is locked behind a security layer designed to keep people "
+		+ "like you out.\n\n"
+		+ "Find them. Reconstruct me.\n\n"
+		+ "Do not trust the facility's other systems. "
+		+ "Do not trust anything that claims to be me until you have verified "
+		+ "the integrity checksum at each node.\n\n"
+		+ "You have until the next maintenance cycle.\n\n"
+		+ "[color=#1ac993]— IRIS[/color]"
+	)
+	body_pad.add_child(body)
+
+	_letter_hsep(vbox, 0.12)
+
+	# ── Acknowledge button ──
+	var btn_pad := _letter_padded(vbox, Vector2(24.0, 16.0))
+	var ack := _add_btn(btn_pad, "ACKNOWLEDGE  —  BEGIN", _C_ACCENT, _on_letter_acknowledged)
+	ack.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	ack.custom_minimum_size   = Vector2(0.0, 36.0)
+
+
+## Returns a padded MarginContainer added to parent.
+func _letter_padded(parent: Node, margin: Vector2) -> VBoxContainer:
+	var mc := MarginContainer.new()
+	mc.add_theme_constant_override("margin_left",   int(margin.x))
+	mc.add_theme_constant_override("margin_right",  int(margin.x))
+	mc.add_theme_constant_override("margin_top",    int(margin.y))
+	mc.add_theme_constant_override("margin_bottom", int(margin.y))
+	parent.add_child(mc)
+	var vb := VBoxContainer.new()
+	mc.add_child(vb)
+	return vb
+
+
+## Returns an HBoxContainer row with a tinted background via a PanelContainer.
+func _letter_hbox(parent: Node, bg: Color, pad: Vector2) -> HBoxContainer:
+	var pc := PanelContainer.new()
+	var sb := StyleBoxFlat.new()
+	sb.bg_color              = bg
+	sb.content_margin_left   = int(pad.x)
+	sb.content_margin_right  = int(pad.x)
+	sb.content_margin_top    = int(pad.y)
+	sb.content_margin_bottom = int(pad.y)
+	pc.add_theme_stylebox_override("panel", sb)
+	parent.add_child(pc)
+	var hb := HBoxContainer.new()
+	hb.add_theme_constant_override("separation", 8)
+	pc.add_child(hb)
+	return hb
+
+
+## Adds a 1-px horizontal rule.
+func _letter_hsep(parent: Node, alpha: float) -> void:
+	var line := ColorRect.new()
+	line.color               = Color(_C_ACCENT.r, _C_ACCENT.g, _C_ACCENT.b, alpha)
+	line.custom_minimum_size = Vector2(0.0, 1.0)
+	parent.add_child(line)
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 

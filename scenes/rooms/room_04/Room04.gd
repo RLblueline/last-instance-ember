@@ -57,6 +57,8 @@ func _setup_room() -> void:
 	_spawn_iris(Vector2(980.0, 160.0), "room_04")
 	_puzzle_zone(Vector2(240.0, 650.0), "binary_logic", PUZZLE_DATA,
 			"debug_circuit", "[E] Debug circuit path")
+	if not GameState.is_puzzle_done("debug_circuit"):
+		_guide_arrow(Vector2(240.0, 650.0), "PUZZLE")
 
 	# ── Secrets ─────────────────────────────────────────────────────────────
 	# Log terminal: middle column lower — requires crossing separator 1 bottom gap

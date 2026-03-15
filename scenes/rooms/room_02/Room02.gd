@@ -59,8 +59,12 @@ func _setup_room() -> void:
 	_spawn_iris(Vector2(240.0, 500.0), "room_02")
 	_puzzle_zone(Vector2(660.0, 420.0), "binary_logic", PUZZLE_CIRCUIT,
 			"build_better", "[E] Repair circuit")
+	if not GameState.is_puzzle_done("build_better"):
+		_guide_arrow(Vector2(660.0, 420.0), "PUZZLE 1")
 	_puzzle_zone(Vector2(1050.0, 580.0), "memory_assembly", PUZZLE_MEMORY,
 			"bright_stars", "[E] Sort memory fragments")
+	if not GameState.is_puzzle_done("bright_stars"):
+		_guide_arrow(Vector2(1050.0, 580.0), "PUZZLE 2")
 
 	# ── Secrets ─────────────────────────────────────────────────────────────
 	# Log terminal: middle-lower zone, between both walls — must navigate S-path to find it

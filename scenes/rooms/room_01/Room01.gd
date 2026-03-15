@@ -31,9 +31,13 @@ func _setup_room() -> void:
 	# Comm screen A — first contact with IRIS voice
 	_comm_screen(Vector2(220.0, 320.0), IRISData.R01_BOOT_SCREEN_A,
 			"[E] Boot module A", _on_screen_done)
+	_guide_arrow(Vector2(220.0, 320.0), "START HERE")
+	# Cool teal glow to contrast against the warm torchlight and draw the player's eye
+	_point_light(Vector2(220.0, 310.0), Color(0.15, 0.90, 0.75), 0.7, 1.8)
 
 	# Lever — pulls open the mid-gate
 	_lever(Vector2(180.0, 640.0), ["door_mid"], "[E] Disengage mid-gate")
+	_guide_arrow(Vector2(180.0, 640.0), "UNLOCK DOOR")
 
 	# Collectible fragment — tucked in upper-left, rewards exploration
 	_data_fragment(Vector2(100.0, 180.0), "frag_01")
@@ -45,14 +49,16 @@ func _setup_room() -> void:
 	_hex_decor(Vector2(210.0, 78.0), "personality_core: loading")
 
 	# Circuit traces — left zone
+	# Full path from left wall to comm screen A so it reads as a connected terminal
 	_circuit_trace(Vector2(55.0,  210.0), Vector2(130.0, 210.0))
 	_circuit_trace(Vector2(130.0, 210.0), Vector2(130.0, 335.0))
-	_circuit_trace(Vector2(130.0, 335.0), Vector2(185.0, 335.0))
+	_circuit_trace(Vector2(130.0, 335.0), Vector2(190.0, 335.0))
+	_circuit_trace(Vector2(190.0, 295.0), Vector2(190.0, 335.0))
 	_circuit_trace(Vector2(55.0,  640.0), Vector2(145.0, 640.0))
 
 	# ── Mid zone (accessible after lever) ───────────────────────────────────
 	# Comm screen B — memory core partial boot
-	_comm_screen(Vector2(570.0, 200.0), IRISData.R01_BOOT_SCREEN_B,
+	_comm_screen(Vector2(570.0, 300), IRISData.R01_BOOT_SCREEN_B,
 			"[E] Boot module B", _on_screen_done)
 
 	# Comm screen C — personality matrix calibration
@@ -62,6 +68,8 @@ func _setup_room() -> void:
 	# Puzzle — reconstruct the boot greeting
 	_puzzle_zone(Vector2(730.0, 380.0), "message_reconstruction", PUZZLE_DATA,
 			"boot_greeting", "[E] Reconstruct boot message")
+	if not GameState.is_puzzle_done("boot_greeting"):
+		_guide_arrow(Vector2(730.0, 380.0), "PUZZLE")
 	# Softlock guard: if this puzzle was already done in a saved run, treat it as done
 	if GameState.is_puzzle_done("boot_greeting"):
 		_puzzle_done = true

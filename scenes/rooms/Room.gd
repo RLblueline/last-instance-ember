@@ -601,6 +601,25 @@ func _apply_facility_texture() -> void:
 	_poly(Rect2(float(WALL_T), float(WALL_T), 5.0, float(ROOM_H - WALL_T * 2)), bev)
 	_poly(Rect2(float(ROOM_W - WALL_T - 5.0), float(WALL_T), 5.0, float(ROOM_H - WALL_T * 2)), bev)
 
+## Floating guide arrow above a position to direct the player's attention.
+## hint: short label shown above the arrow (e.g. "START", "UNLOCK"). Pass "" for arrow only.
+func _guide_arrow(pos: Vector2, hint: String = "") -> void:
+	if hint != "":
+		var lbl := Label.new()
+		lbl.text = hint
+		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		lbl.custom_minimum_size = Vector2(100.0, 16.0)
+		lbl.position = pos + Vector2(-50.0, -66.0)
+		lbl.add_theme_color_override("font_color", Color(1.0, 0.85, 0.25, 0.80))
+		lbl.add_theme_font_size_override("font_size", 9)
+		add_child(lbl)
+	var arrow := Label.new()
+	arrow.text = "▼"
+	arrow.position = pos + Vector2(-8.0, -46.0)
+	arrow.add_theme_color_override("font_color", Color(1.0, 0.85, 0.25, 0.90))
+	arrow.add_theme_font_size_override("font_size", 16)
+	add_child(arrow)
+
 ## Single-segment circuit trace line (horizontal OR vertical only).
 func _circuit_trace(from: Vector2, to: Vector2, alpha: float = 0.38) -> void:
 	var tc   := _get_trace_color(alpha)
