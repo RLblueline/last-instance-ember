@@ -110,7 +110,7 @@ func _build_main_btns(parent: Control) -> void:
 	var vbox := VBoxContainer.new()
 	vbox.add_theme_constant_override("separation", 8)
 	# Centered in 1280×800, below title
-	vbox.position              = Vector2(480.0, 314.0)
+	vbox.position              = Vector2(410, 314.0)
 	vbox.custom_minimum_size   = Vector2(320.0, 0.0)
 	parent.add_child(vbox)
 
