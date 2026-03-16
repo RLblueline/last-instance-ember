@@ -28,6 +28,6 @@ One playthrough takes about 3–4 minutes
 Last Instance was created for Hack Club’s Campfire game jam, a global teen-led event focused on making small, experimental games together.
 
 CREDITS
-- Ambient Synths by robotmeadows (https://robotmeadows.itch.io/ambient-synths)
+- Ambient Synths by robotmeadows (https://robotmeadows.itch.io/ambient-themes)
 
 Made in 2 weeks.
