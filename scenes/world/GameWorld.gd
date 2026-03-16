@@ -127,7 +127,7 @@ func _on_transition(next_room_id: String) -> void:
 	if next_room_id == "__title__":
 		get_tree().change_scene_to_file("res://scenes/ui/TitleScreen.tscn")
 		return
-	_load_room(next_room_id)
+	call_deferred("_load_room", next_room_id)
 
 # ── Puzzle management ─────────────────────────────────────────────────────────
 

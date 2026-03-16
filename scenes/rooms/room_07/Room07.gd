@@ -62,8 +62,12 @@ func _setup_room() -> void:
 	_exit_zone("room_08")
 
 func on_puzzle_completed(puzzle_id: String) -> void:
-	if puzzle_id == "vault_sequence" and _db != null:
-		_db.present(IRISData.R07_POST_PUZZLE)
+	if puzzle_id != "vault_sequence" or _db == null:
+		return
+	_db.present(IRISData.R07_POST_PUZZLE)
+	await _db.dialogue_finished
+	await get_tree().create_timer(0.6).timeout
+	transition_requested.emit("room_08")
 
 func get_spawn_point() -> Vector2:
 	return Vector2(100.0, 400.0)

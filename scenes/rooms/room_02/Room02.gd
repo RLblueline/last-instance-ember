@@ -75,6 +75,8 @@ func _setup_room() -> void:
 	# Data fragment: upper-left zone — accessible before crossing wall 1, but easy to miss
 	_data_fragment(Vector2(300.0, 140.0), "frag_02")
 
+	if not (GameState.is_puzzle_done("build_better") and GameState.is_puzzle_done("bright_stars")):
+		_door(Rect2(ROOM_W - WALL_T, 310.0, WALL_T, 180.0), "exit_gate")
 	_exit_zone("room_03")
 
 func on_puzzle_completed(puzzle_id: String) -> void:
@@ -90,6 +92,8 @@ func on_puzzle_completed(puzzle_id: String) -> void:
 		GameState.set_flag("room_02_all_done")
 		await _db.dialogue_finished
 		_db.present(IRISData.R02_ALL_DONE_LINES, "IRIS", IRISData.R02_ALL_DONE_CHOICES)
+		await _db.dialogue_finished
+		_open_door("exit_gate")
 
 func get_spawn_point() -> Vector2:
 	return Vector2(100.0, 580.0)

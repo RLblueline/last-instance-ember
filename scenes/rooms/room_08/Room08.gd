@@ -67,11 +67,15 @@ func _setup_room() -> void:
 	# Data fragment: right zone lower
 	_data_fragment(Vector2(1050.0, 660.0), "frag_08")
 
+	if not GameState.is_puzzle_done("override_code"):
+		_door(Rect2(ROOM_W - WALL_T, 310.0, WALL_T, 180.0), "exit_gate")
 	_exit_zone("room_06")
 
 func on_puzzle_completed(puzzle_id: String) -> void:
 	if puzzle_id == "override_code" and _db != null:
 		_db.present(IRISData.R08_POST_PUZZLE)
+		await _db.dialogue_finished
+		_open_door("exit_gate")
 
 func get_spawn_point() -> Vector2:
 	return Vector2(100.0, 400.0)

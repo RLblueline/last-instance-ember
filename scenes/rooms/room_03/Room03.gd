@@ -56,11 +56,15 @@ func _setup_room() -> void:
 	# Data fragment: upper-left near IRIS — reward for reaching her
 	_data_fragment(Vector2(160.0, 160.0), "frag_03")
 
+	if not GameState.is_puzzle_done("tomorrow_message"):
+		_door(Rect2(ROOM_W - WALL_T, 310.0, WALL_T, 180.0), "exit_gate")
 	_exit_zone("room_04")
 
 func on_puzzle_completed(puzzle_id: String) -> void:
 	if puzzle_id == "tomorrow_message" and _db != null:
 		_db.present(IRISData.R03_POST_PUZZLE)
+		await _db.dialogue_finished
+		_open_door("exit_gate")
 
 func get_spawn_point() -> Vector2:
 	return Vector2(100.0, 620.0)

@@ -75,6 +75,8 @@ func _setup_room() -> void:
 	# Data fragment: left zone between the two walls — needs Wall B left gap
 	_data_fragment(Vector2(200.0, 390.0), "frag_05")
 
+	if not (GameState.is_puzzle_done("remember_us_memory") and GameState.is_puzzle_done("final_message")):
+		_door(Rect2(ROOM_W - WALL_T, 310.0, WALL_T, 180.0), "exit_gate")
 	_exit_zone("room_07")
 
 func on_puzzle_completed(_puzzle_id: String) -> void:
@@ -84,6 +86,8 @@ func on_puzzle_completed(_puzzle_id: String) -> void:
 	if _puzzles_done >= 2 and not GameState.get_flag("room_05_done"):
 		GameState.set_flag("room_05_done")
 		_db.present(IRISData.R05_POST_PUZZLE)
+		await _db.dialogue_finished
+		_open_door("exit_gate")
 
 func get_spawn_point() -> Vector2:
 	return Vector2(100.0, 680.0)

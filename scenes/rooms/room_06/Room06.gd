@@ -34,6 +34,40 @@ func _setup_room() -> void:
 	_log_terminal(Vector2(1050.0, 580.0), IRISData.LOG_R06)
 	_exit_zone("__title__")
 
+func set_dialogue_box(db: DialogueBox) -> void:
+	super.set_dialogue_box(db)
+	_play_entry()
+
+func _play_entry() -> void:
+	# Fade in from black as player arrives from room 07
+	var cl := CanvasLayer.new()
+	cl.layer = 30
+	add_child(cl)
+	var black := ColorRect.new()
+	black.color = Color(0.0, 0.0, 0.0, 1.0)
+	black.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	black.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cl.add_child(black)
+	var fade := create_tween()
+	fade.tween_property(black, "modulate:a", 0.0, 1.8)
+	fade.tween_callback(cl.queue_free)
+	# Auto-trigger IRIS ending while room fades in — player never needs to press E
+	await get_tree().create_timer(0.5).timeout
+	if _db == null or _iris == null:
+		return
+	if _iris._spoken_initial:
+		return
+	_iris._spoken_initial = true
+	_iris.trigger_glitch()
+	await get_tree().create_timer(0.3).timeout
+	if _db == null:
+		return
+	var choices: Array = IRISData.R06_CHOICES_HIGH if GameState.empathy_score >= 4 \
+			else IRISData.R06_CHOICES_LOW
+	_db.present(IRISData.R06_SETUP_LINES, "IRIS", choices)
+	await _db.dialogue_finished
+	_iris.dialogue_ended.emit()
+
 func _on_iris_dialogue_ended() -> void:
 	if _db == null:
 		GameState.reset()

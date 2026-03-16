@@ -70,11 +70,15 @@ func _setup_room() -> void:
 	# Data fragment: right column lower — hardest to reach (need to cross both separators)
 	_data_fragment(Vector2(960.0, 660.0), "frag_04")
 
+	if not GameState.is_puzzle_done("debug_circuit"):
+		_door(Rect2(ROOM_W - WALL_T, 310.0, WALL_T, 180.0), "exit_gate")
 	_exit_zone("room_05")
 
 func on_puzzle_completed(puzzle_id: String) -> void:
 	if puzzle_id == "debug_circuit" and _db != null:
 		_db.present(IRISData.R04_POST_PUZZLE)
+		await _db.dialogue_finished
+		_open_door("exit_gate")
 
 func get_spawn_point() -> Vector2:
 	return Vector2(240.0, 160.0)
