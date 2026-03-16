@@ -81,6 +81,8 @@ func _build_puzzle() -> void:
 		var btn := Button.new()
 		btn.text = frag["text"]
 		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		btn.custom_minimum_size = Vector2(0, 52)
+		btn.add_theme_font_size_override("font_size", 18)
 		var fid: String = frag["id"]
 		btn.pressed.connect(func() -> void: _on_fragment_pressed(fid))
 		_fragments_container.add_child(btn)
@@ -92,7 +94,8 @@ func _build_puzzle() -> void:
 
 		var cat_btn := Button.new()
 		cat_btn.text = cat
-		cat_btn.custom_minimum_size = Vector2(100, 0)
+		cat_btn.custom_minimum_size = Vector2(150, 52)
+		cat_btn.add_theme_font_size_override("font_size", 18)
 		var cat_cap: String = cat
 		cat_btn.pressed.connect(func() -> void: _on_category_pressed(cat_cap))
 

@@ -7,12 +7,13 @@ var placed_chip: FragmentChip = null
 var _label: Label = null
 
 func _ready() -> void:
-	custom_minimum_size = Vector2(80, 40)
+	custom_minimum_size = Vector2(120, 58)
 	_label = Label.new()
 	_label.text = "___"
 	_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_label.add_theme_color_override("font_color", Color(0.2, 1.0, 0.6))
+	_label.add_theme_font_size_override("font_size", 18)
 	add_child(_label)
 
 func clear() -> void:

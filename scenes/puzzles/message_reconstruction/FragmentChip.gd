@@ -6,12 +6,13 @@ var _used: bool = false
 
 func setup(p_word: String) -> void:
 	word = p_word
-	custom_minimum_size = Vector2(64, 36)
+	custom_minimum_size = Vector2(110, 54)
 	var lbl := Label.new()
 	lbl.text = p_word
 	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	lbl.add_theme_color_override("font_color", Color(0.2, 1.0, 0.6))
+	lbl.add_theme_font_size_override("font_size", 18)
 	add_child(lbl)
 
 func set_used(value: bool) -> void:
