@@ -208,11 +208,18 @@ func _exit_zone(next_room: String) -> void:
 	lbl.add_theme_font_size_override("font_size", 20)
 	area.add_child(lbl)
 
-	var nr := next_room
-	var _cb := func(body: Node) -> void:
+	var nr   := next_room
+	var aref := area
+	# Wait one physics frame before listening so the player's physics-server
+	# AABB is at the new spawn position — prevents false body_entered when
+	# the player arrives at spawn from the previous room's exit position.
+	await get_tree().physics_frame
+	if not is_instance_valid(aref):
+		return
+	aref.body_entered.connect(func(body: Node) -> void:
 		if body is Player:
 			transition_requested.emit(nr)
-	area.body_entered.connect(_cb)
+	)
 
 # ── Helpers: room name label ──────────────────────────────────────────────────
 func _name_label(text: String) -> void:

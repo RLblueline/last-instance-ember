@@ -100,13 +100,17 @@ func _load_room(room_id: String) -> void:
 		return
 
 	_current_room = packed.instantiate()
+
+	# Teleport player to spawn BEFORE adding room to scene tree so its
+	# Area2Ds register with the player already at the correct position —
+	# otherwise the exit zone fires body_entered immediately.
+	if _current_room.has_method("get_spawn_point"):
+		_player.global_position = _current_room.get_spawn_point()
+
 	_room_container.add_child(_current_room)
 	_current_room.connect("transition_requested", _on_transition)
 	_current_room.connect("puzzle_requested", _on_puzzle_requested)
 	_current_room.set_dialogue_box(_dialogue_box)
-
-	if _current_room.has_method("get_spawn_point"):
-		_player.global_position = _current_room.get_spawn_point()
 
 	# Constrain camera to room bounds and lock zoom to prevent seeing outside
 	_player.set_camera_limits(0, 0, 1280, 800)

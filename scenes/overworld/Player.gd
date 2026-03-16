@@ -15,8 +15,8 @@ func _ready() -> void:
 
 func _setup_animations() -> void:
 	var texture := preload("res://Assets/Sprite Frames (1).png") as Texture2D
-	var frame_w := int(texture.get_width())  / 6  # 6 columns
-	var frame_h := int(texture.get_height() / 3.5)  # 3 rows
+	var frame_w: int = texture.get_width() / 6   # 6 columns
+	var frame_h: int = int(texture.get_height() / 3.5)  # 3 rows
 
 	var frames := SpriteFrames.new()
 	if frames.has_animation("default"):
