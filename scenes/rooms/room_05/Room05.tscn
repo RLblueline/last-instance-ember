@@ -1,6 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://broom05"]
+[gd_scene format=3 uid="uid://broom05"]
 
-[ext_resource type="Script" path="res://scenes/rooms/room_05/Room05.gd" id="1_r05"]
+[ext_resource type="Script" uid="uid://cl62k5xd5tkfa" path="res://scenes/rooms/room_05/Room05.gd" id="1_r05"]
+[ext_resource type="AudioStream" uid="uid://b6glubgsxk525" path="res://MP3/Forward.mp3" id="2_ikjhq"]
 
-[node name="Room05" type="Node2D"]
+[node name="Room05" type="Node2D" unique_id=436822661]
 script = ExtResource("1_r05")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1051022983]
+stream = ExtResource("2_ikjhq")
+volume_db = -11.555
+autoplay = true
+parameters/looping = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="AudioStreamPlayer2D" unique_id=1401291776]
+stream = ExtResource("2_ikjhq")
+volume_db = -11.555
+autoplay = true
+parameters/looping = true

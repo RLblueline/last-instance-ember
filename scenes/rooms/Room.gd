@@ -177,6 +177,7 @@ func _puzzle_zone(pos: Vector2, p_type: String, p_data: Dictionary,
 	var zone: InteractionZone = _IZ_SCENE.instantiate() as InteractionZone
 	zone.position = pos
 	zone.prompt_text = label
+	zone.one_shot = true
 	add_child(zone)
 	var pr: Label = zone.get_node_or_null("Prompt")
 	if pr:
