@@ -1,42 +1,44 @@
-[gd_scene load_steps=2 format=3 uid="uid://bhud01"]
+[gd_scene format=3 uid="uid://bhud01"]
 
-[ext_resource type="Script" path="res://scenes/ui/HUD.gd" id="1_hud"]
+[ext_resource type="Script" uid="uid://cknfrd50gr272" path="res://scenes/ui/HUD.gd" id="1_hud"]
 
-[node name="HUD" type="CanvasLayer"]
+[node name="HUD" type="CanvasLayer" unique_id=85152876]
 layer = 52
 script = ExtResource("1_hud")
 
-[node name="TopBar" type="HBoxContainer" parent="."]
-anchor_left = 0.0
-anchor_top = 0.0
+[node name="TopBar" type="HBoxContainer" parent="." unique_id=18635886]
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 0.0
+offset_right = -768.0
 offset_bottom = 28.0
 grow_horizontal = 2
-grow_vertical = 1
+scale = Vector2(3, 3)
 theme_override_constants/separation = 12
 
-[node name="IRISLabel" type="Label" parent="TopBar"]
-text = "IRIS PROTOCOL"
-theme_override_font_sizes/font_size = 11
+[node name="IRISLabel" type="Label" parent="TopBar" unique_id=614310588]
+layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.8, 0.6, 0.6)
+theme_override_font_sizes/font_size = 11
+text = "IRIS PROTOCOL"
 
-[node name="Spacer" type="Control" parent="TopBar"]
+[node name="Spacer" type="Control" parent="TopBar" unique_id=500293936]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RoomLabel" type="Label" parent="TopBar"]
+[node name="RoomLabel" type="Label" parent="TopBar" unique_id=340940942]
 unique_name_in_owner = true
-text = "01 · Boot Build"
-theme_override_font_sizes/font_size = 11
-theme_override_colors/font_color = Color(0.6, 0.7, 0.6, 0.6)
-
-[node name="Spacer2" type="Control" parent="TopBar"]
 layout_mode = 2
-custom_minimum_size = Vector2(12, 0)
-
-[node name="StatLabel" type="Label" parent="TopBar"]
-unique_name_in_owner = true
-text = "E:0  H:0  O:0"
+theme_override_colors/font_color = Color(0.6, 0.7, 0.6, 0.6)
 theme_override_font_sizes/font_size = 11
-theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 0.5)
+text = "01 · Boot Build"
+
+[node name="Spacer2" type="Control" parent="TopBar" unique_id=262515614]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+
+[node name="StatLabel" type="Label" parent="TopBar" unique_id=1041073729]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1.0, 0.35, 0.45, 0.95)
+theme_override_font_sizes/font_size = 16
+text = "E:0  H:0  O:0"
