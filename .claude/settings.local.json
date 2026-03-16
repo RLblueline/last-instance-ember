@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(python3:*)",
-      "Read(//c/Users/ponma/AppData/Roaming/Godot/app_userdata/**)"
+      "Read(//c/Users/ponma/AppData/Roaming/Godot/app_userdata/**)",
+      "Bash(ls:*)",
+      "Bash(cd:*)"
     ]
   }
 }
