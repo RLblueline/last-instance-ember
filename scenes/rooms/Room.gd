@@ -193,10 +193,10 @@ func _exit_zone(next_room: String) -> void:
 	var area := Area2D.new()
 	area.collision_layer = 0
 	area.collision_mask  = 1
-	area.position = Vector2(ROOM_W - WALL_T / 2.0, 400.0)
+	area.position = Vector2(ROOM_W - 10.0, 400.0)
 	var cs := CollisionShape2D.new()
 	var rs := RectangleShape2D.new()
-	rs.size = Vector2(WALL_T + 40.0, 180.0)
+	rs.size = Vector2(WALL_T - 10.0, 180.0)
 	cs.shape = rs
 	area.add_child(cs)
 	add_child(area)
@@ -679,6 +679,42 @@ func _laser_v(x: float, y1: float, y2: float) -> void:
 	_poly(Rect2(x - 5.0, y1 - 3.0, 10.0, 6.0), Color(0.95, 0.10, 0.08, 0.80))
 	_poly(Rect2(x - 5.0, y2 - 3.0, 10.0, 6.0), Color(0.95, 0.10, 0.08, 0.80))
 	_add_static_hazard(Vector2(x, (y1 + y2) * 0.5), Vector2(16.0, y2 - y1))
+
+## Sweeping horizontal laser — beam spans x1→x2, sweeps up/down by range_px.
+func _laser_h_patrol(x1: float, x2: float, y_center: float,
+		range_px: float, speed: float = 38.0) -> void:
+	var hz := _HAZARD_SCENE.new() as Hazard
+	hz.position = Vector2((x1 + x2) * 0.5, y_center)
+	var bw := x2 - x1
+	var core := Polygon2D.new()
+	core.polygon = PackedVector2Array([
+		Vector2(-bw * 0.5, -2.0), Vector2(bw * 0.5, -2.0),
+		Vector2(bw * 0.5,  2.0),  Vector2(-bw * 0.5,  2.0),
+	])
+	core.color = Color(0.95, 0.10, 0.08, 0.95)
+	hz.add_child(core)
+	var glow := Polygon2D.new()
+	glow.polygon = PackedVector2Array([
+		Vector2(-bw * 0.5, -9.0), Vector2(bw * 0.5, -9.0),
+		Vector2(bw * 0.5,   9.0), Vector2(-bw * 0.5,  9.0),
+	])
+	glow.color = Color(0.95, 0.10, 0.08, 0.10)
+	hz.add_child(glow)
+	for sx in [-bw * 0.5, bw * 0.5 - 4.0]:
+		var cap := Polygon2D.new()
+		cap.polygon = PackedVector2Array([
+			Vector2(sx, -5.0), Vector2(sx + 6.0, -5.0),
+			Vector2(sx + 6.0,  5.0), Vector2(sx,  5.0),
+		])
+		cap.color = Color(0.95, 0.10, 0.08, 0.80)
+		hz.add_child(cap)
+	var cs := CollisionShape2D.new()
+	var rs := RectangleShape2D.new()
+	rs.size = Vector2(bw, 16.0)
+	cs.shape = rs
+	hz.add_child(cs)
+	hz.setup_patrol(range_px, speed, "y")
+	add_child(hz)
 
 func _add_static_hazard(center: Vector2, size: Vector2) -> void:
 	var hz := _HAZARD_SCENE.new() as Hazard

@@ -587,6 +587,15 @@ const IRIS_IDLE_14S: Array = [
 
 # ── Konami code ───────────────────────────────────────────────────────────────
 
+const IRIS_LOW_HEALTH: Array = [
+	"...",
+	"Your vitals are at minimum threshold.",
+	"One more hit and the facility removes you from its records.",
+	"...",
+	"Please be careful.",
+	"I don't say that as a system directive.",
+]
+
 const IRIS_KONAMI: Array = [
 	"Did you just input a cheat code.",
 	"↑↑↓↓←→←→",

@@ -39,8 +39,13 @@ func _setup_room() -> void:
 
 	# ── IRIS & puzzle ────────────────────────────────────────────────────────
 	_spawn_iris(Vector2(260.0, 240.0), "room_03")
-	# ── Hazard — laser across lower corridor ─────────────────────────────────
+	# ── Hazards ──────────────────────────────────────────────────────────────
+	# Static laser across lower corridor
 	_laser_h(40.0, 320.0, 560.0)
+	# Guard the puzzle in the right zone
+	_patrol_enemy(Vector2(960.0, 300.0), 70.0, "y", 48.0)
+	# Guard approach to IRIS in upper-left
+	_patrol_enemy(Vector2(260.0, 360.0), 55.0, "x", 42.0)
 	_puzzle_zone(Vector2(1050.0, 240.0), "message_reconstruction", PUZZLE_DATA,
 			"tomorrow_message", "[E] Decode memory fragment")
 	if not GameState.is_puzzle_done("tomorrow_message"):

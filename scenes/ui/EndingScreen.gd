@@ -1,6 +1,6 @@
 extends Node
 
-const _TITLE_SCENE := "res://scenes/ui/TitleScreen.tscn"
+const _CREDITS_SCENE := "res://scenes/ui/CreditsScreen.tscn"
 
 const _C_BG     := Color(0.02, 0.02, 0.04)
 const _C_TITLE  := Color(0.20, 1.00, 0.72)
@@ -116,7 +116,7 @@ func _build_screen(parent: Control) -> void:
 	btn_anchor.offset_right  = -460
 	parent.add_child(btn_anchor)
 	_add_btn(btn_anchor, "RETURN TO TITLE", _C_ACCENT, func() -> void:
-		get_tree().change_scene_to_file(_TITLE_SCENE)
+		get_tree().change_scene_to_file(_CREDITS_SCENE)
 	)
 
 # ── Run stats panel (left) ────────────────────────────────────────────────

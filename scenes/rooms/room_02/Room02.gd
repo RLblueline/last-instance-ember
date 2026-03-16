@@ -58,7 +58,14 @@ func _setup_room() -> void:
 	# ── IRIS & puzzles ───────────────────────────────────────────────────────
 	_spawn_iris(Vector2(240.0, 500.0), "room_02")
 	# ── Hazards ───────────────────────────────────────────────────────────────
+	# Sweeping laser across the S-path corridor
+	_laser_h_patrol(480.0, 840.0, 490.0, 130.0, 34.0)
+	# Guard the approach to IRIS
+	_patrol_enemy(Vector2(340.0, 500.0), 60.0, "y", 46.0)
+	# Original corridor patrol
 	_patrol_enemy(Vector2(640.0, 680.0), 90.0, "x", 50.0)
+	# Guard puzzle 2 in right zone
+	_patrol_enemy(Vector2(960.0, 580.0), 65.0, "y", 52.0)
 	_puzzle_zone(Vector2(660.0, 420.0), "binary_logic", PUZZLE_CIRCUIT,
 			"build_better", "[E] Repair circuit")
 	if not GameState.is_puzzle_done("build_better"):

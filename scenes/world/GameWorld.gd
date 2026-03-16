@@ -25,10 +25,11 @@ const PUZZLE_SCENES: Dictionary = {
 @onready var _puzzle_overlay: CanvasLayer = %PuzzleOverlay
 @onready var _hud                         = %HUD
 
-var _current_room     = null
-var _lock_count:      int = 0
-var _canvas_modulate: CanvasModulate = null
-var _torch_overlay:   TorchOverlay   = null
+var _current_room       = null
+var _lock_count:        int  = 0
+var _canvas_modulate:   CanvasModulate = null
+var _torch_overlay:     TorchOverlay   = null
+var _low_health_warned: bool = false
 
 # ── Konami code tracker ────────────────────────────────────────────────────────
 const _KONAMI: Array = [
@@ -202,6 +203,11 @@ func _on_player_damaged() -> void:
 		await get_tree().create_timer(0.65).timeout
 		GameState.reset()
 		get_tree().change_scene_to_file("res://scenes/ui/TitleScreen.tscn")
+		return
+	if GameState.lives == 1 and not _low_health_warned:
+		_low_health_warned = true
+		await get_tree().create_timer(0.5).timeout
+		_dialogue_box.present(IRISData.IRIS_LOW_HEALTH, "IRIS")
 
 func _screen_flash(color: Color, duration: float) -> void:
 	var cl := CanvasLayer.new()

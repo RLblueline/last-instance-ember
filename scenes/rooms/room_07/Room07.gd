@@ -32,6 +32,10 @@ func _setup_room() -> void:
 	# ── Hazards — SHARD surging through this sector ──────────────────────────
 	_laser_v(640.0, 40.0, 180.0)
 	_laser_h(560.0, 720.0, 400.0)
+	# Guard IRIS in the left zone
+	_patrol_enemy(Vector2(350.0, 300.0), 60.0, "y", 48.0)
+	# Guard the puzzle in the right zone
+	_patrol_enemy(Vector2(900.0, 380.0), 70.0, "x", 55.0)
 
 	# ── Circuit traces ─────────────────────────────────────────────────────
 	_circuit_trace(Vector2(55.0,  580.0), Vector2(300.0, 580.0))

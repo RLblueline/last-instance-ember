@@ -58,6 +58,8 @@ func _setup_room() -> void:
 	# ── Hazards — SHARD fragments in the maze ────────────────────────────────
 	_patrol_enemy(Vector2(350.0, 490.0), 70.0, "y", 50.0)
 	_patrol_enemy(Vector2(640.0, 390.0), 70.0, "y", 62.0)
+	# Guard IRIS in the upper-right column
+	_patrol_enemy(Vector2(980.0, 280.0), 65.0, "x", 50.0)
 	_puzzle_zone(Vector2(240.0, 650.0), "binary_logic", PUZZLE_DATA,
 			"debug_circuit", "[E] Debug circuit path")
 	if not GameState.is_puzzle_done("debug_circuit"):

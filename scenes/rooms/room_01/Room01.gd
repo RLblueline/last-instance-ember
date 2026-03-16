@@ -23,6 +23,8 @@ func _setup_room() -> void:
 	# ── SHARD hazard — introduces danger system ───────────────────────────────
 	# Slow patrol near the mid-gate so the player learns to dodge
 	_patrol_enemy(Vector2(310.0, 520.0), 70.0, "x", 42.0)
+	# Guard the puzzle zone
+	_patrol_enemy(Vector2(730.0, 480.0), 60.0, "x", 46.0)
 
 	# ── Containment doors ────────────────────────────────────────────────────
 	# Mid-gate: blocks passage to comm screens B/C and puzzle until lever pulled
