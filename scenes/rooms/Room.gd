@@ -211,7 +211,7 @@ func _exit_zone(next_room: String) -> void:
 	var nr := next_room
 	var _cb := func(body: Node) -> void:
 		if body is Player:
-			transition_requested.emit.call_deferred(nr)
+			transition_requested.emit(nr)
 	area.body_entered.connect(_cb)
 
 # ── Helpers: room name label ──────────────────────────────────────────────────

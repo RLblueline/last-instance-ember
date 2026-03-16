@@ -126,7 +126,7 @@ func _load_room(room_id: String) -> void:
 func _on_transition(next_room_id: String) -> void:
 	GameState.save()
 	if next_room_id == "__title__":
-		get_tree().change_scene_to_file("res://scenes/ui/EndingScreen.tscn")
+		get_tree().change_scene_to_file.call_deferred("res://scenes/ui/EndingScreen.tscn")
 		return
 	call_deferred("_load_room", next_room_id)
 
