@@ -1,6 +1,12 @@
 [gd_scene format=3 uid="uid://btitle01"]
 
-[ext_resource type="Script" path="res://scenes/ui/TitleScreen.gd" id="1_ts"]
+[ext_resource type="Script" uid="uid://dh8ll0l8k24rw" path="res://scenes/ui/TitleScreen.gd" id="1_ts"]
+[ext_resource type="AudioStream" uid="uid://bb47jy5w2wgsr" path="res://MP3/Repose.mp3" id="2_bt6bf"]
 
-[node name="TitleScreen" type="Node"]
+[node name="TitleScreen" type="Node" unique_id=1245822815]
 script = ExtResource("1_ts")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=59660380]
+stream = ExtResource("2_bt6bf")
+volume_db = -6.39
+autoplay = true
