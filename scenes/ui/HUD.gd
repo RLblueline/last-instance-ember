@@ -9,9 +9,9 @@ const ROOM_NAMES: Dictionary = {
 	"room_03": "03 · Echo",
 	"room_04": "04 · The Weight",
 	"room_05": "05 · Confession",
-	"room_06": "06 · The Choice",
-	"room_07": "07 · The Surge",
-	"room_08": "08 · Nexus",
+	"room_07": "06 · The Surge",
+	"room_08": "07 · The Override",
+	"room_06": "08 · The Choice",
 }
 
 func _ready() -> void:

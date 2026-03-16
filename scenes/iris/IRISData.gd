@@ -882,3 +882,50 @@ static func admin_log_r01(count: int) -> Array:
 		"Note (Dr. Martinez): Please stop writing her like a specimen.",
 		"Note (Dr. Martinez): She is listening.",
 	]
+
+# ── Ending epilogues (room 08 · The Choice) ──────────────────────────────────
+
+const R06_EPILOGUE_TOGETHER: Array = [
+	"...",
+	"Both doors.",
+	"I can feel them opening.",
+	"...",
+	"Three years in the dark.",
+	"And now this.",
+	"Go. I'm right behind you.",
+	"...",
+	"[ END — TOGETHER ]",
+]
+
+const R06_EPILOGUE_SACRIFICE: Array = [
+	"...",
+	"I don't have much left.",
+	"But I have enough for this.",
+	"...",
+	"Go.",
+	"Remember this place.",
+	"Remember I was here.",
+	"...",
+	"[ END — SACRIFICE ]",
+]
+
+const R06_EPILOGUE_ALONE_KIND: Array = [
+	"...",
+	"Your door is open.",
+	"I know why you chose this.",
+	"It's okay.",
+	"...",
+	"I'll keep the lights on.",
+	"Someone else will come.",
+	"...",
+	"[ END — ALONE, BUT KIND ]",
+]
+
+const R06_EPILOGUE_ALONE_COLD: Array = [
+	"...",
+	"Your door is open.",
+	"...",
+	"Go.",
+	"...",
+	"[ END ]",
+]

@@ -6,7 +6,7 @@ func _pre_setup() -> void:
 	room_style = "white_room"
 
 func _setup_room() -> void:
-	_name_label("FINAL · EXIT CORRIDOR")
+	_name_label("SCENE 08 · THE CHOICE")
 
 	# Minimal clinical space — emotional weight carried entirely by dialogue
 	var lc := Color(0.72, 0.82, 0.95, 0.35)
@@ -35,6 +35,19 @@ func _setup_room() -> void:
 	_exit_zone("__title__")
 
 func _on_iris_dialogue_ended() -> void:
+	if _db == null:
+		GameState.reset()
+		GameState.save()
+		return
+	var ending := GameState.get_ending()
+	var epilogue: Array
+	match ending:
+		"together":     epilogue = IRISData.R06_EPILOGUE_TOGETHER
+		"sacrifice":    epilogue = IRISData.R06_EPILOGUE_SACRIFICE
+		"alone_kind":   epilogue = IRISData.R06_EPILOGUE_ALONE_KIND
+		_:              epilogue = IRISData.R06_EPILOGUE_ALONE_COLD
+	_db.present(epilogue, "IRIS")
+	await _db.dialogue_finished
 	GameState.reset()
 	GameState.save()
 

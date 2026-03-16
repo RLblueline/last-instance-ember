@@ -12,7 +12,7 @@ const PUZZLE_DATA: Dictionary = {
 }
 
 func _setup_room() -> void:
-	_name_label("SCENE 07 · THE LOCKDOWN")
+	_name_label("SCENE 06 · THE SURGE")
 
 	# ── Permanent walls ────────────────────────────────────────────────────
 	# Vertical separator — gap at bottom (y 580–760)

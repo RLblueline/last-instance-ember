@@ -11,7 +11,7 @@ const PUZZLE_DATA: Dictionary = {
 }
 
 func _setup_room() -> void:
-	_name_label("SCENE 08 · THE OVERRIDE")
+	_name_label("SCENE 07 · THE OVERRIDE")
 
 	# ── Permanent walls ────────────────────────────────────────────────────
 	# Upper-left wall — narrows left zone, makes switch harder to miss
