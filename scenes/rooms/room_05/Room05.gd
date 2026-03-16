@@ -16,9 +16,9 @@ const PUZZLE_MEMORY: Dictionary = {
 
 const PUZZLE_MSG: Dictionary = {
 	"fragment_id":     "final_message",
-	"target_sentence": "If anyone finds this remember us.",
+	"target_sentence": "If anyone finds this REMEMBER us.",
 	"scramble_mode":   "shuffle_words",
-	"story_fragment":  "If anyone finds this... remember us.",
+	"story_fragment":  "If anyone finds this... REMEMBER us.",
 }
 
 var _puzzles_done: int = 0
