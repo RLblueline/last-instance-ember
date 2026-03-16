@@ -4,7 +4,9 @@
       "Bash(python3:*)",
       "Read(//c/Users/ponma/AppData/Roaming/Godot/app_userdata/**)",
       "Bash(ls:*)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(zip:*)",
+      "Bash(powershell -Command \"\\(Get-Item 'D:/last-instance/itchio_upload.zip'\\).Length / 1MB\")"
     ]
   }
 }
