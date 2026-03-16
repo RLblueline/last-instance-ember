@@ -70,6 +70,7 @@ func _play_entry() -> void:
 
 func _on_iris_dialogue_ended() -> void:
 	if _db == null:
+		GameState.record_ending(GameState.get_ending())
 		GameState.reset()
 		GameState.save()
 		return
@@ -82,6 +83,7 @@ func _on_iris_dialogue_ended() -> void:
 		_:              epilogue = IRISData.R06_EPILOGUE_ALONE_COLD
 	_db.present(epilogue, "IRIS")
 	await _db.dialogue_finished
+	GameState.record_ending(ending)
 	GameState.reset()
 	GameState.save()
 

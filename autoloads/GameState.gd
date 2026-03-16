@@ -15,8 +15,16 @@ var current_room_id:   String     = "room_01"
 var playthrough_count: int        = 0
 
 # ── Secrets ───────────────────────────────────────────────────────────────
-var collected_fragments: Array = []   # frag_01 … frag_06
+var collected_fragments: Array = []   # frag_01 … frag_08
 var secrets_found:       int   = 0   # log terminals + ghost echoes read
+
+# ── Cross-run persistence (survives reset, cleared by wipe) ───────────────
+var endings_achieved:  Array  = []   # ["together", "sacrifice", …]
+var last_run_ending:   String = ""
+var last_run_empathy:  int    = 0
+var last_run_honesty:  int    = 0
+var last_run_fragments: int   = 0
+var last_run_secrets:  int    = 0
 
 # ── Helpers ───────────────────────────────────────────────────────────────
 func set_flag(key: String, value: bool = true) -> void:
@@ -58,6 +66,16 @@ func has_fragment(fid: String) -> bool:
 func all_fragments_collected() -> bool:
 	return collected_fragments.size() >= 8
 
+# ── Ending recording ──────────────────────────────────────────────────────
+func record_ending(ending: String) -> void:
+	last_run_ending    = ending
+	last_run_empathy   = empathy_score
+	last_run_honesty   = honesty_score
+	last_run_fragments = collected_fragments.size()
+	last_run_secrets   = secrets_found
+	if ending not in endings_achieved:
+		endings_achieved.append(ending)
+
 # ── Ending logic ──────────────────────────────────────────────────────────
 func get_ending() -> String:
 	var together := get_flag("chose_together")
@@ -84,7 +102,13 @@ func save() -> void:
 		"playthrough_count":  playthrough_count,
 		"collected_fragments": collected_fragments,
 		"secrets_found":      secrets_found,
-		"lives": lives,
+		"lives":              lives,
+		"endings_achieved":   endings_achieved,
+		"last_run_ending":    last_run_ending,
+		"last_run_empathy":   last_run_empathy,
+		"last_run_honesty":   last_run_honesty,
+		"last_run_fragments": last_run_fragments,
+		"last_run_secrets":   last_run_secrets,
 	}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file:
@@ -109,7 +133,13 @@ func load_save() -> bool:
 	playthrough_count   = data.get("playthrough_count",  0) + 1
 	collected_fragments = data.get("collected_fragments", [])
 	secrets_found       = data.get("secrets_found",      0)
-	lives               = data.get("lives", 3)
+	lives               = data.get("lives",              3)
+	endings_achieved    = data.get("endings_achieved",   [])
+	last_run_ending     = data.get("last_run_ending",    "")
+	last_run_empathy    = data.get("last_run_empathy",   0)
+	last_run_honesty    = data.get("last_run_honesty",   0)
+	last_run_fragments  = data.get("last_run_fragments", 0)
+	last_run_secrets    = data.get("last_run_secrets",   0)
 	return true
 
 func has_save() -> bool:
@@ -131,4 +161,10 @@ func wipe() -> void:
 	if dir != null:
 		dir.remove("iris_save.json")
 	reset()
-	playthrough_count = 0
+	playthrough_count  = 0
+	endings_achieved   = []
+	last_run_ending    = ""
+	last_run_empathy   = 0
+	last_run_honesty   = 0
+	last_run_fragments = 0
+	last_run_secrets   = 0
