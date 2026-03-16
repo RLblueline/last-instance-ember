@@ -20,6 +20,10 @@ func _setup_room() -> void:
 	_apply_dungeon_texture()
 	_apply_torch_lights()
 
+	# ── SHARD hazard — introduces danger system ───────────────────────────────
+	# Slow patrol near the mid-gate so the player learns to dodge
+	_patrol_enemy(Vector2(310.0, 520.0), 70.0, "x", 42.0)
+
 	# ── Containment doors ────────────────────────────────────────────────────
 	# Mid-gate: blocks passage to comm screens B/C and puzzle until lever pulled
 	_door(Rect2(420.0, 40.0, 36.0, 720.0), "door_mid")

@@ -16,6 +16,7 @@ const C_LOG     := Color(0.05, 0.18, 0.28, 1.0)
 const _IRIS_SCENE    := preload("res://scenes/iris/IRIS.tscn")
 const _IZ_SCENE      := preload("res://scenes/overworld/InteractionZone.tscn")
 const _AMBIENT_SCENE := preload("res://scenes/effects/AmbientField.gd")
+const _HAZARD_SCENE := preload("res://scenes/overworld/Hazard.gd")
 
 var _db:        DialogueBox = null
 var _iris:      IRIS        = null
@@ -150,8 +151,12 @@ func _spawn_iris(pos: Vector2, room_id: String) -> void:
 	_room_id = room_id
 	_iris = _IRIS_SCENE.instantiate() as IRIS
 	_iris.position = pos
+	_iris.modulate = Color(1.0, 1.0, 1.0, 0.0)
 	add_child(_iris)
 	_iris.dialogue_ended.connect(_on_iris_dialogue_ended)
+	var tween := _iris.create_tween()
+	tween.tween_property(_iris, "modulate:a", 1.0, 0.35)
+	tween.tween_callback(_iris.trigger_glitch)
 
 func _on_iris_dialogue_ended() -> void:
 	pass
@@ -255,7 +260,6 @@ func _log_terminal(pos: Vector2, lines: Array) -> void:
 func _data_fragment(pos: Vector2, fid: String) -> void:
 	if GameState.has_fragment(fid):
 		return
-	# Outer glow
 	var gpts := PackedVector2Array()
 	for i in 6:
 		var a := i * PI / 3.0 - PI / 6.0
@@ -265,7 +269,6 @@ func _data_fragment(pos: Vector2, fid: String) -> void:
 	glow.position = pos
 	glow.color = Color(0.0, 0.9, 0.8, 0.12)
 	add_child(glow)
-	# Core hexagon
 	var hpts := PackedVector2Array()
 	for i in 6:
 		var a := i * PI / 3.0 - PI / 6.0
@@ -275,14 +278,12 @@ func _data_fragment(pos: Vector2, fid: String) -> void:
 	hex.position = pos
 	hex.color = Color(0.0, 0.95, 0.85, 0.9)
 	add_child(hex)
-	# Marker label
 	var lbl := Label.new()
 	lbl.text = "◈"
 	lbl.position = pos + Vector2(-7.0, -9.0)
 	lbl.add_theme_color_override("font_color", Color(0.2, 1.0, 0.9, 0.9))
 	lbl.add_theme_font_size_override("font_size", 14)
 	add_child(lbl)
-	# Collection area
 	var area := Area2D.new()
 	area.collision_layer = 0
 	area.collision_mask  = 1
@@ -299,12 +300,36 @@ func _data_fragment(pos: Vector2, fid: String) -> void:
 	var l_ref := lbl
 	var a_ref := area
 	var _fb := func(body: Node) -> void:
-		if body is Player:
-			GameState.collect_fragment(fragment_id)
+		if not (body is Player):
+			return
+		GameState.collect_fragment(fragment_id)
+		var healed := GameState.lives < GameState.MAX_LIVES
+		GameState.heal()
+		# Float-up and fade animation
+		var tw := h_ref.create_tween()
+		tw.set_parallel(true)
+		tw.tween_property(h_ref, "position:y", h_ref.position.y - 28.0, 0.45)
+		tw.tween_property(h_ref, "modulate:a", 0.0, 0.45)
+		tw.tween_property(g_ref, "modulate:a", 0.0, 0.45)
+		tw.tween_property(l_ref, "modulate:a", 0.0, 0.45)
+		var _cleanup := func() -> void:
 			h_ref.queue_free()
 			g_ref.queue_free()
 			l_ref.queue_free()
 			a_ref.queue_free()
+		tw.chain().tween_callback(_cleanup)
+		# Floating pickup label
+		var plbl := Label.new()
+		plbl.text = "+♥" if healed else "◈"
+		plbl.position = pos + Vector2(-12.0, -36.0)
+		var plbl_color := Color(1.0, 0.35, 0.45, 1.0) if healed else Color(0.2, 1.0, 0.9, 1.0)
+		plbl.add_theme_color_override("font_color", plbl_color)
+		plbl.add_theme_font_size_override("font_size", 15)
+		add_child(plbl)
+		var ptw := plbl.create_tween()
+		ptw.tween_property(plbl, "position:y", pos.y - 72.0, 0.7)
+		ptw.parallel().tween_property(plbl, "modulate:a", 0.0, 0.7)
+		ptw.tween_callback(plbl.queue_free)
 	area.body_entered.connect(_fb)
 
 ## Invisible memory echo — faint marker, one-shot dialogue on interact.
@@ -398,9 +423,13 @@ func _door(rect: Rect2, door_id: String) -> void:
 
 ## Opens (frees) a door by its id.
 func _open_door(door_id: String) -> void:
-	if _doors.has(door_id):
-		_doors[door_id].queue_free()
-		_doors.erase(door_id)
+	if not _doors.has(door_id):
+		return
+	var door_node: Node2D = _doors[door_id]
+	_doors.erase(door_id)
+	var tween := create_tween()
+	tween.tween_property(door_node, "modulate:a", 0.0, 0.35)
+	tween.tween_callback(door_node.queue_free)
 
 ## Switch panel — interacting opens the listed doors.
 func _switch_panel(pos: Vector2, door_ids: Array, label: String = "[E] Activate") -> void:
@@ -633,3 +662,68 @@ func _circuit_trace(from: Vector2, to: Vector2, alpha: float = 0.38) -> void:
 	_accent(rect, tc)
 	_poly(Rect2(from.x - 2.0, from.y - 2.0, 4.0, 4.0), dot)
 	_poly(Rect2(to.x   - 2.0, to.y   - 2.0, 4.0, 4.0), dot)
+
+## Static horizontal laser beam — damages player on contact.
+func _laser_h(x1: float, x2: float, y: float) -> void:
+	_poly(Rect2(x1, y - 2.0, x2 - x1, 4.0),  Color(0.95, 0.10, 0.08, 0.95))
+	_poly(Rect2(x1, y - 8.0, x2 - x1, 16.0), Color(0.95, 0.10, 0.08, 0.10))
+	_poly(Rect2(x1 - 3.0, y - 5.0, 6.0, 10.0), Color(0.95, 0.10, 0.08, 0.80))
+	_poly(Rect2(x2 - 3.0, y - 5.0, 6.0, 10.0), Color(0.95, 0.10, 0.08, 0.80))
+	_add_static_hazard(Vector2((x1 + x2) * 0.5, y), Vector2(x2 - x1, 16.0))
+
+## Static vertical laser beam — damages player on contact.
+func _laser_v(x: float, y1: float, y2: float) -> void:
+	_poly(Rect2(x - 2.0, y1, 4.0,  y2 - y1), Color(0.95, 0.10, 0.08, 0.95))
+	_poly(Rect2(x - 8.0, y1, 16.0, y2 - y1), Color(0.95, 0.10, 0.08, 0.10))
+	_poly(Rect2(x - 5.0, y1 - 3.0, 10.0, 6.0), Color(0.95, 0.10, 0.08, 0.80))
+	_poly(Rect2(x - 5.0, y2 - 3.0, 10.0, 6.0), Color(0.95, 0.10, 0.08, 0.80))
+	_add_static_hazard(Vector2(x, (y1 + y2) * 0.5), Vector2(16.0, y2 - y1))
+
+func _add_static_hazard(center: Vector2, size: Vector2) -> void:
+	var hz := _HAZARD_SCENE.new() as Hazard
+	hz.position = center
+	var cs := CollisionShape2D.new()
+	var rs := RectangleShape2D.new()
+	rs.size = size
+	cs.shape = rs
+	hz.add_child(cs)
+	add_child(hz)
+
+## Patrol enemy (SHARD fragment) — moves back and forth, damages on contact.
+func _patrol_enemy(pos: Vector2, range_px: float,
+		axis: String = "x", speed: float = 55.0) -> void:
+	var hz := _HAZARD_SCENE.new() as Hazard
+	hz.position = pos
+	# Outer glow
+	var gpts := PackedVector2Array([
+		Vector2(0.0, -18.0), Vector2(15.0, 0.0),
+		Vector2(0.0,  18.0), Vector2(-15.0, 0.0),
+	])
+	var glow := Polygon2D.new()
+	glow.polygon = gpts
+	glow.color = Color(0.90, 0.10, 0.10, 0.14)
+	hz.add_child(glow)
+	# Core diamond
+	var dpts := PackedVector2Array([
+		Vector2(0.0, -11.0), Vector2(10.0, 0.0),
+		Vector2(0.0,  11.0), Vector2(-10.0, 0.0),
+	])
+	var core := Polygon2D.new()
+	core.polygon = dpts
+	core.color = Color(0.90, 0.12, 0.10, 0.92)
+	hz.add_child(core)
+	# "SHARD" label
+	var elbl := Label.new()
+	elbl.text = "SHARD"
+	elbl.position = Vector2(-16.0, 12.0)
+	elbl.add_theme_color_override("font_color", Color(0.95, 0.20, 0.15, 0.75))
+	elbl.add_theme_font_size_override("font_size", 7)
+	hz.add_child(elbl)
+	# Collision
+	var cs := CollisionShape2D.new()
+	var rs := CircleShape2D.new()
+	rs.radius = 11.0
+	cs.shape = rs
+	hz.add_child(cs)
+	hz.setup_patrol(range_px, speed, axis)
+	add_child(hz)

@@ -5,6 +5,9 @@ var empathy_score:   int = 0
 var honesty_score:   int = 0
 var obedience_score: int = 0
 
+var lives:     int = 3
+const MAX_LIVES: int = 3
+
 # ── Progress ─────────────────────────────────────────────────────────────
 var dialogue_flags:    Dictionary = {}
 var completed_puzzles: Array      = []
@@ -37,6 +40,12 @@ func add_honesty(delta: int) -> void:
 
 func add_obedience(delta: int) -> void:
 	obedience_score += delta
+
+func heal() -> void:
+	lives = mini(lives + 1, MAX_LIVES)
+
+func lose_life() -> void:
+	lives = maxi(0, lives - 1)
 
 # ── Fragment helpers ───────────────────────────────────────────────────────
 func collect_fragment(fid: String) -> void:
@@ -75,6 +84,7 @@ func save() -> void:
 		"playthrough_count":  playthrough_count,
 		"collected_fragments": collected_fragments,
 		"secrets_found":      secrets_found,
+		"lives": lives,
 	}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file:
@@ -99,6 +109,7 @@ func load_save() -> bool:
 	playthrough_count   = data.get("playthrough_count",  0) + 1
 	collected_fragments = data.get("collected_fragments", [])
 	secrets_found       = data.get("secrets_found",      0)
+	lives               = data.get("lives", 3)
 	return true
 
 func has_save() -> bool:
@@ -113,6 +124,7 @@ func reset() -> void:
 	current_room_id     = "room_01"
 	collected_fragments = []
 	secrets_found       = 0
+	lives               = 3
 
 func wipe() -> void:
 	var dir := DirAccess.open("user://")

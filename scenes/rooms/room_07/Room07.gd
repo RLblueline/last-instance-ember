@@ -29,6 +29,9 @@ func _setup_room() -> void:
 	# Switch: lower-left area — player naturally finds it near spawn
 	_switch_panel(Vector2(300.0, 660.0), ["gate_a"], "[E] Release gate")
 	_guide_arrow(Vector2(300.0, 660.0), "UNLOCK GATE")
+	# ── Hazards — SHARD surging through this sector ──────────────────────────
+	_laser_v(640.0, 40.0, 180.0)
+	_laser_h(560.0, 720.0, 400.0)
 
 	# ── Circuit traces ─────────────────────────────────────────────────────
 	_circuit_trace(Vector2(55.0,  580.0), Vector2(300.0, 580.0))

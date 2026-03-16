@@ -57,6 +57,8 @@ func _setup_room() -> void:
 
 	# ── IRIS & puzzles ───────────────────────────────────────────────────────
 	_spawn_iris(Vector2(240.0, 500.0), "room_02")
+	# ── Hazards ───────────────────────────────────────────────────────────────
+	_patrol_enemy(Vector2(640.0, 680.0), 90.0, "x", 50.0)
 	_puzzle_zone(Vector2(660.0, 420.0), "binary_logic", PUZZLE_CIRCUIT,
 			"build_better", "[E] Repair circuit")
 	if not GameState.is_puzzle_done("build_better"):

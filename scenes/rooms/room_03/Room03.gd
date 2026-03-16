@@ -39,6 +39,8 @@ func _setup_room() -> void:
 
 	# ── IRIS & puzzle ────────────────────────────────────────────────────────
 	_spawn_iris(Vector2(260.0, 240.0), "room_03")
+	# ── Hazard — laser across lower corridor ─────────────────────────────────
+	_laser_h(40.0, 320.0, 560.0)
 	_puzzle_zone(Vector2(1050.0, 240.0), "message_reconstruction", PUZZLE_DATA,
 			"tomorrow_message", "[E] Decode memory fragment")
 	if not GameState.is_puzzle_done("tomorrow_message"):

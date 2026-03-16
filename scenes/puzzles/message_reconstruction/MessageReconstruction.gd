@@ -90,4 +90,7 @@ func _check_solution() -> void:
 		if _slots[i].placed_chip.word != _target_words[i]:
 			return
 	set_interaction_enabled(false)
-	solved.emit(_fragment_id, _original_sentence)
+	var tween := create_tween()
+	tween.tween_property(self, "modulate", Color(0.15, 1.0, 0.55, 1.0), 0.12)
+	tween.tween_property(self, "modulate", Color(1.0,  1.0, 1.0,  1.0), 0.22)
+	tween.tween_callback(func() -> void: solved.emit(_fragment_id, _original_sentence))

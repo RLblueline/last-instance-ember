@@ -1,9 +1,12 @@
 class_name Player
 extends CharacterBody2D
 
+signal damaged
+
 const SPEED := 120.0
 
 var movement_enabled: bool = true
+var _invincible: bool = false
 
 func _physics_process(_delta: float) -> void:
 	if not movement_enabled:
@@ -35,3 +38,20 @@ func set_camera_zoom(zoom: Vector2) -> void:
 	var cam: Camera2D = get_node_or_null("Camera2D")
 	if cam:
 		cam.zoom = zoom
+
+func take_damage() -> void:
+	if _invincible or not movement_enabled:
+		return
+	_invincible = true
+	GameState.lose_life()
+	damaged.emit()
+	_flash_hit()
+	get_tree().create_timer(2.0).timeout.connect(func() -> void: _invincible = false)
+
+func _flash_hit() -> void:
+	var tween := create_tween()
+	tween.tween_property(self, "modulate", Color(1.0, 0.15, 0.15, 1.0), 0.06)
+	tween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 0.25), 0.10)
+	tween.tween_property(self, "modulate", Color(1.0, 0.15, 0.15, 1.0), 0.10)
+	tween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 0.25), 0.10)
+	tween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 1.0),  0.10)

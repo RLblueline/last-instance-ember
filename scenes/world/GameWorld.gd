@@ -49,6 +49,7 @@ func _ready() -> void:
 	_torch_overlay = load("res://scenes/effects/TorchOverlay.gd").new()
 	add_child(_torch_overlay)
 	_torch_overlay.setup(_player)
+	_player.damaged.connect(_on_player_damaged)
 	_load_room(GameState.current_room_id)
 	var sl: Node = load("res://scenes/effects/ScanlineLayer.gd").new()
 	add_child(sl)
@@ -158,15 +159,40 @@ func _on_puzzle_requested(puzzle_type: String, puzzle_data: Dictionary, puzzle_i
 
 func _on_puzzle_solved(puzzle_node: Node, puzzle_id: String) -> void:
 	GameState.complete_puzzle(puzzle_id)
-	puzzle_node.queue_free()
-
-	if _current_room != null and _current_room.has_method("on_puzzle_completed"):
-		_current_room.on_puzzle_completed(puzzle_id)
-
-	_unlock_player()
-	GameState.save()
+	# Green flash then free
+	var tween := create_tween()
+	tween.tween_property(puzzle_node, "modulate", Color(0.2, 1.0, 0.55, 1.0), 0.12)
+	tween.tween_property(puzzle_node, "modulate", Color(1.0, 1.0, 1.0,  1.0), 0.22)
+	tween.tween_callback(func() -> void:
+		puzzle_node.queue_free()
+		if _current_room != null and _current_room.has_method("on_puzzle_completed"):
+			_current_room.on_puzzle_completed(puzzle_id)
+		_unlock_player()
+		GameState.save()
+	)
 
 # ── Player lock helpers ───────────────────────────────────────────────────────
+
+func _on_player_damaged() -> void:
+	_screen_flash(Color(0.75, 0.0, 0.0, 0.50), 0.30)
+	if GameState.lives <= 0:
+		_screen_flash(Color(0.0, 0.0, 0.0, 0.85), 0.60)
+		await get_tree().create_timer(0.65).timeout
+		GameState.reset()
+		get_tree().change_scene_to_file("res://scenes/ui/TitleScreen.tscn")
+
+func _screen_flash(color: Color, duration: float) -> void:
+	var cl := CanvasLayer.new()
+	cl.layer = 12
+	add_child(cl)
+	var flash := ColorRect.new()
+	flash.color = color
+	flash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cl.add_child(flash)
+	var tween := create_tween()
+	tween.tween_property(flash, "modulate:a", 0.0, duration)
+	tween.tween_callback(cl.queue_free)
 
 func _set_atmosphere(style: String) -> void:
 	match style:

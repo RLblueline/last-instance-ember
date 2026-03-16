@@ -55,6 +55,10 @@ func _setup_room() -> void:
 
 	# ── IRIS & puzzles ────────────────────────────────────────────────────
 	_spawn_iris(Vector2(640.0, 400.0), "room_05")
+	# ── Hazards ───────────────────────────────────────────────────────────────
+	_laser_h(40.0, 280.0, 310.0)
+	_patrol_enemy(Vector2(900.0, 630.0), 90.0, "x", 55.0)
+	_patrol_enemy(Vector2(200.0, 390.0), 70.0, "y", 50.0)
 	_puzzle_zone(Vector2(200.0, 680.0), "memory_assembly", PUZZLE_MEMORY,
 			"remember_us_memory", "[E] Sort final memory")
 	if not GameState.is_puzzle_done("remember_us_memory"):

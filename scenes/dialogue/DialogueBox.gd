@@ -14,6 +14,18 @@ signal choice_made(index: int)
 
 const CHARS_PER_SEC := 38.0
 
+const _KEYWORDS: Dictionary = {
+	"SHARD":      "c94040",
+	"March 14":   "e8b832",
+	"trapped":    "e05030",
+	"erased":     "e05030",
+	"locked":     "e05030",
+	"REMEMBER":   "1ac993",
+	"together":   "1ac993",
+	"Dr. Martinez": "9ac0df",
+	"Dr. Chen":     "9ac0df",
+}
+
 var _lines:          Array = []
 var _line_index:     int   = 0
 var _choices:        Array = []
@@ -50,7 +62,7 @@ func _ready() -> void:
 # ── Internal ────────────────────────────────────────────────────────────────
 
 func _show_line(txt: String) -> void:
-	_text.text = txt
+	_text.text = _apply_highlights(txt)
 	_text.visible_characters = 0
 	_typewriter_on = true
 	_timer.wait_time = 1.0 / CHARS_PER_SEC
@@ -114,6 +126,14 @@ func _on_choice_picked(idx: int) -> void:
 	else:
 		_panel.hide()
 		dialogue_finished.emit()
+
+func _apply_highlights(text: String) -> String:
+	if "[color=" in text:
+		return text
+	var t := text
+	for word: String in _KEYWORDS:
+		t = t.replace(word, "[color=#%s]%s[/color]" % [_KEYWORDS[word], word])
+	return t
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not _panel.visible:

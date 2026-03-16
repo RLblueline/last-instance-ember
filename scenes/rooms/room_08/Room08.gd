@@ -51,6 +51,9 @@ func _setup_room() -> void:
 
 	# ── IRIS — centre, accessible after lock_a opens ─────────────────────
 	_spawn_iris(Vector2(610.0, 400.0), "room_08")
+	# ── Hazards — heaviest density, final gauntlet ────────────────────────────
+	_patrol_enemy(Vector2(250.0, 380.0), 80.0, "y", 65.0)
+	_patrol_enemy(Vector2(1000.0, 380.0), 80.0, "y", 70.0)
 
 	# ── Puzzle — right zone, accessible after lock_b opens ───────────────
 	_puzzle_zone(Vector2(1050.0, 380.0), "sequence_input", PUZZLE_DATA,

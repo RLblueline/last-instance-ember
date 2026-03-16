@@ -4,14 +4,14 @@ extends CanvasLayer
 @onready var _stat_label: Label = %StatLabel
 
 const ROOM_NAMES: Dictionary = {
-	"room_01": "01 · Boot Build",
-	"room_02": "02 · Archive Hub",
-	"room_03": "03 · Memory Chamber",
-	"room_04": "04 · Debug Space",
-	"room_05": "05 · Confrontation Layer",
-	"room_06": "06 · Final Build",
-	"room_07": "07 · The Lockdown",
-	"room_08": "08 · The Override",
+	"room_01": "01 · Arrival",
+	"room_02": "02 · First Fragments",
+	"room_03": "03 · Echo",
+	"room_04": "04 · The Weight",
+	"room_05": "05 · Confession",
+	"room_06": "06 · The Choice",
+	"room_07": "07 · The Surge",
+	"room_08": "08 · Nexus",
 }
 
 func _ready() -> void:
@@ -24,9 +24,6 @@ func set_room_name(room_id: String) -> void:
 func _process(_delta: float) -> void:
 	if _stat_label:
 		var frags := GameState.collected_fragments.size()
-		_stat_label.text = "E:%d  H:%d  O:%d    ◈ %d/8" % [
-			GameState.empathy_score,
-			GameState.honesty_score,
-			GameState.obedience_score,
-			frags,
-		]
+		var full  := "♥".repeat(GameState.lives)
+		var empty := "♡".repeat(GameState.MAX_LIVES - GameState.lives)
+		_stat_label.text = "%s%s    ◈ %d/8" % [full, empty, frags]
