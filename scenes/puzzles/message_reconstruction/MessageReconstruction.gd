@@ -6,12 +6,13 @@ signal solved(fragment_id: String, reconstructed_text: String)
 @onready var _slots_container:     HBoxContainer   = %SlotsContainer
 @onready var _reset_button:        Button          = %ResetButton
 
-var _fragment_id:      String = ""
-var _original_sentence: String = ""
-var _target_words:     Array  = []
-var _chips:            Array  = []  # Array[FragmentChip]
-var _slots:            Array  = []  # Array[AnswerSlot]
-var _pending_data:     Dictionary = {}
+var _fragment_id:      String          = ""
+var _original_sentence: String         = ""
+var _target_words:     Array[String]     = []
+var _chips:            Array           = []  # Array[FragmentChip]
+var _slots:            Array           = []  # Array[AnswerSlot]
+var _pending_data:     Dictionary      = {}
+var _solved:           bool            = false
 
 # ── Interface ─────────────────────────────────────────────────────────────
 
@@ -43,10 +44,13 @@ func _ready() -> void:
 func _apply_config() -> void:
 	_fragment_id       = _pending_data["fragment_id"]
 	_original_sentence = _pending_data["target_sentence"]
-	_target_words      = Array(_original_sentence.split(" "))
+	_target_words.clear()
+	for w: String in _original_sentence.split(" "):
+		_target_words.append(w)
 	_build_puzzle()
 
 func _build_puzzle() -> void:
+	_solved = false
 	for child in _fragments_container.get_children():
 		child.queue_free()
 	for child in _slots_container.get_children():
@@ -55,7 +59,7 @@ func _build_puzzle() -> void:
 	_slots.clear()
 
 	# Shuffle; guarantee at least one swap so puzzle is never pre-solved.
-	var shuffled: Array = _target_words.duplicate()
+	var shuffled: Array[String] = _target_words.duplicate()
 	shuffled.shuffle()
 	if shuffled == _target_words and shuffled.size() > 1:
 		var tmp: String = shuffled[0]
@@ -84,11 +88,14 @@ func _on_word_placed(_slot: AnswerSlot, _word: String,
 	_check_solution()
 
 func _check_solution() -> void:
+	if _solved:
+		return
 	for i in _slots.size():
 		if _slots[i].placed_chip == null:
 			return
 		if _slots[i].placed_chip.word != _target_words[i]:
 			return
+	_solved = true
 	set_interaction_enabled(false)
 	var tween := create_tween()
 	tween.tween_property(self, "modulate", Color(0.15, 1.0, 0.55, 1.0), 0.12)

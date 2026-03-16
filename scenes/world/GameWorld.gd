@@ -58,8 +58,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	# ESC cancels any active puzzle
 	if event.is_action_pressed("ui_cancel"):
 		if _puzzle_overlay.get_child_count() > 0:
-			_puzzle_overlay.get_child(0).queue_free()
-			_unlock_player()
+			_close_puzzle_overlay()
 			get_viewport().set_input_as_handled()
 			return
 
@@ -135,6 +134,8 @@ func _on_transition(next_room_id: String) -> void:
 func _on_puzzle_requested(puzzle_type: String, puzzle_data: Dictionary, puzzle_id: String) -> void:
 	if GameState.is_puzzle_done(puzzle_id):
 		return
+	if _puzzle_overlay.get_child_count() > 0:
+		return
 	if not PUZZLE_SCENES.has(puzzle_type):
 		push_error("GameWorld: unknown puzzle type '%s'" % puzzle_type)
 		return
@@ -153,23 +154,44 @@ func _on_puzzle_requested(puzzle_type: String, puzzle_data: Dictionary, puzzle_i
 	puzzle.configure(puzzle_data)
 	puzzle.set_interaction_enabled(true)
 
+	# Close button — top-right corner, works for all puzzle types
+	var close_btn := Button.new()
+	close_btn.text = "✕ Close"
+	close_btn.anchor_left   = 1.0
+	close_btn.anchor_right  = 1.0
+	close_btn.anchor_top    = 0.0
+	close_btn.anchor_bottom = 0.0
+	close_btn.offset_left   = -110.0
+	close_btn.offset_right  = -8.0
+	close_btn.offset_top    = 8.0
+	close_btn.offset_bottom = 38.0
+	close_btn.add_theme_color_override("font_color", Color(0.9, 0.3, 0.3))
+	_puzzle_overlay.add_child(close_btn)
+	close_btn.pressed.connect(_close_puzzle_overlay)
+
 	puzzle.connect("solved", func(_fid: String, _txt: String) -> void:
 		_on_puzzle_solved(puzzle, puzzle_id)
 	)
 
 func _on_puzzle_solved(puzzle_node: Node, puzzle_id: String) -> void:
 	GameState.complete_puzzle(puzzle_id)
-	# Green flash then free
+	# Green flash then free all overlay children (puzzle + close button)
 	var tween := create_tween()
 	tween.tween_property(puzzle_node, "modulate", Color(0.2, 1.0, 0.55, 1.0), 0.12)
 	tween.tween_property(puzzle_node, "modulate", Color(1.0, 1.0, 1.0,  1.0), 0.22)
 	tween.tween_callback(func() -> void:
-		puzzle_node.queue_free()
+		for c in _puzzle_overlay.get_children():
+			c.queue_free()
 		if _current_room != null and _current_room.has_method("on_puzzle_completed"):
 			_current_room.on_puzzle_completed(puzzle_id)
 		_unlock_player()
 		GameState.save()
 	)
+
+func _close_puzzle_overlay() -> void:
+	for c in _puzzle_overlay.get_children():
+		c.queue_free()
+	_unlock_player()
 
 # ── Player lock helpers ───────────────────────────────────────────────────────
 
