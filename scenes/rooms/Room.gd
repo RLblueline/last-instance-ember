@@ -211,7 +211,7 @@ func _exit_zone(next_room: String) -> void:
 	var nr := next_room
 	var _cb := func(body: Node) -> void:
 		if body is Player:
-			transition_requested.emit(nr)
+			transition_requested.emit.call_deferred(nr)
 	area.body_entered.connect(_cb)
 
 # ── Helpers: room name label ──────────────────────────────────────────────────
@@ -533,7 +533,7 @@ func _lever(pos: Vector2, door_ids: Array, label: String = "[E] Pull lever") -> 
 	lev_zone.interacted.connect(_lev_cb)
 
 ## Ambient point light — creates a PointLight2D with a radial gradient texture.
-func _point_light(pos: Vector2, color: Color, energy: float = 1.0, scale: float = 1.5) -> PointLight2D:
+func _point_light(pos: Vector2, color: Color, energy: float = 1.0, light_scale: float = 1.5) -> PointLight2D:
 	var grad := Gradient.new()
 	grad.set_color(0, Color(1.0, 1.0, 1.0, 1.0))
 	grad.set_color(1, Color(0.0, 0.0, 0.0, 0.0))
@@ -544,7 +544,7 @@ func _point_light(pos: Vector2, color: Color, energy: float = 1.0, scale: float 
 	tex.gradient = grad
 	var light := PointLight2D.new()
 	light.texture       = tex
-	light.texture_scale = scale
+	light.texture_scale = light_scale
 	light.energy        = energy
 	light.color         = color
 	light.position      = pos

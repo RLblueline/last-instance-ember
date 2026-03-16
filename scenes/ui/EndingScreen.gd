@@ -93,9 +93,19 @@ func _build_screen(parent: Control) -> void:
 	sep.offset_right  = -260
 	parent.add_child(sep)
 
-	# ── Two-column panels ─────────────────────────────────────────────────
-	_build_stats_panel(parent)
-	_build_endings_panel(parent)
+	# ── Two-column panels (centred) ───────────────────────────────────────
+	var hbox := HBoxContainer.new()
+	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	hbox.add_theme_constant_override("separation", 40)
+	hbox.anchor_left   = 0.0
+	hbox.anchor_right  = 1.0
+	hbox.anchor_top    = 0.0
+	hbox.anchor_bottom = 0.0
+	hbox.offset_top    = 210
+	hbox.offset_bottom = 510
+	parent.add_child(hbox)
+	_build_stats_panel(hbox)
+	_build_endings_panel(hbox)
 
 	# ── Bottom separator ──────────────────────────────────────────────────
 	var sep2 := ColorRect.new()
@@ -122,7 +132,7 @@ func _build_screen(parent: Control) -> void:
 # ── Run stats panel (left) ────────────────────────────────────────────────
 
 func _build_stats_panel(parent: Control) -> void:
-	var panel := _make_panel(parent, "RUN REPORT", 120.0, 210.0, 500.0)
+	var panel := _make_panel(parent, "RUN REPORT", 500.0)
 
 	var rows: Array = [
 		["EMPATHY",    str(GameState.last_run_empathy)],
@@ -165,7 +175,7 @@ func _build_endings_panel(parent: Control) -> void:
 	var achieved := GameState.endings_achieved
 	var count    := achieved.size()
 
-	var panel := _make_panel(parent, "ENDINGS LOG  ·  %d / 4" % count, 660.0, 210.0, 500.0)
+	var panel := _make_panel(parent, "ENDINGS LOG  ·  %d / 4" % count, 500.0)
 
 	for eid in ENDING_ORDER:
 		var einfo: Array = ENDING_INFO.get(eid, [eid, ""])
@@ -208,9 +218,8 @@ func _build_endings_panel(parent: Control) -> void:
 # ── Helpers ───────────────────────────────────────────────────────────────
 
 ## Creates a panel at the given x position. Returns inner VBoxContainer.
-func _make_panel(parent: Control, header: String, x: float, y: float, w: float) -> VBoxContainer:
+func _make_panel(parent: Control, header: String, w: float) -> VBoxContainer:
 	var panel := PanelContainer.new()
-	panel.position           = Vector2(x, y)
 	panel.custom_minimum_size = Vector2(w, 0.0)
 
 	var sb := StyleBoxFlat.new()

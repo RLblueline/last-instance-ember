@@ -199,15 +199,79 @@ func _close_puzzle_overlay() -> void:
 func _on_player_damaged() -> void:
 	_screen_flash(Color(0.75, 0.0, 0.0, 0.50), 0.30)
 	if GameState.lives <= 0:
-		_screen_flash(Color(0.0, 0.0, 0.0, 0.85), 0.60)
-		await get_tree().create_timer(0.65).timeout
-		GameState.reset()
-		get_tree().change_scene_to_file("res://scenes/ui/TitleScreen.tscn")
+		_show_death_screen()
 		return
 	if GameState.lives == 1 and not _low_health_warned:
 		_low_health_warned = true
 		await get_tree().create_timer(0.5).timeout
 		_dialogue_box.present(IRISData.IRIS_LOW_HEALTH, "IRIS")
+
+func _show_death_screen() -> void:
+	_lock_count = 999
+	_player.set_movement_enabled(false)
+
+	const C_RED   := Color(0.85, 0.12, 0.12)
+	const C_DARK  := Color(0.40, 0.10, 0.10)
+
+	var cl := CanvasLayer.new()
+	cl.layer = 20
+	add_child(cl)
+
+	var bg := ColorRect.new()
+	bg.color = Color(0.0, 0.0, 0.0, 0.0)
+	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cl.add_child(bg)
+
+	var root := Control.new()
+	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	cl.add_child(root)
+
+	var title := Label.new()
+	title.text = "SYSTEM TERMINATED"
+	title.add_theme_color_override("font_color", C_RED)
+	title.add_theme_font_size_override("font_size", 48)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.anchor_left = 0.0; title.anchor_right  = 1.0
+	title.anchor_top  = 0.0; title.anchor_bottom = 0.0
+	title.offset_top  = 210; title.offset_bottom = 270
+	title.modulate.a  = 0.0
+	root.add_child(title)
+
+	var sub := Label.new()
+	sub.text = "iris.exe has stopped running"
+	sub.add_theme_color_override("font_color", C_DARK)
+	sub.add_theme_font_size_override("font_size", 14)
+	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	sub.anchor_left = 0.0; sub.anchor_right  = 1.0
+	sub.anchor_top  = 0.0; sub.anchor_bottom = 0.0
+	sub.offset_top  = 278; sub.offset_bottom = 300
+	sub.modulate.a  = 0.0
+	root.add_child(sub)
+
+	var hint := Label.new()
+	hint.text = "returning to title…"
+	hint.add_theme_color_override("font_color", Color(C_DARK.r, C_DARK.g, C_DARK.b, 0.55))
+	hint.add_theme_font_size_override("font_size", 10)
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.anchor_left = 0.0; hint.anchor_right  = 1.0
+	hint.anchor_top  = 0.0; hint.anchor_bottom = 0.0
+	hint.offset_top  = 350; hint.offset_bottom = 368
+	hint.modulate.a  = 0.0
+	root.add_child(hint)
+
+	var tween := create_tween()
+	tween.tween_property(bg,    "color:a",     1.0, 0.9)
+	tween.parallel().tween_property(title, "modulate:a", 1.0, 0.9)
+	tween.tween_interval(0.4)
+	tween.tween_property(sub,   "modulate:a",  1.0, 0.5)
+	tween.tween_interval(0.3)
+	tween.tween_property(hint,  "modulate:a",  1.0, 0.4)
+	tween.tween_interval(2.2)
+	tween.tween_callback(func() -> void:
+		GameState.reset()
+		get_tree().change_scene_to_file("res://scenes/ui/TitleScreen.tscn")
+	)
 
 func _screen_flash(color: Color, duration: float) -> void:
 	var cl := CanvasLayer.new()

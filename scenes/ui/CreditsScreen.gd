@@ -82,8 +82,8 @@ func _build(parent: Control) -> void:
 	vbox.anchor_bottom = 0.5
 	vbox.anchor_left   = 0.0
 	vbox.anchor_right  = 1.0
-	vbox.offset_top    = -160.0
-	vbox.offset_bottom =  160.0
+	vbox.offset_top    = -220.0
+	vbox.offset_bottom =  220.0
 	vbox.offset_left   = 0.0
 	vbox.offset_right  = 0.0
 	card.add_child(vbox)
@@ -107,11 +107,15 @@ func _build(parent: Control) -> void:
 	var body := Label.new()
 	body.text = (
 		"We hope you enjoyed the game.\n\n"
-		+ "In our ending letter, we wanted to reflect the theme\n"
-		+ "\"Beneath the Surface\" by exploring the deeper emotional\n"
-		+ "and ethical layers of AI — looking past what it appears\n"
-		+ "to be on the outside and considering the questions,\n"
-		+ "consequences, and humanity that might exist underneath."
+		+ "Through our gameplay, we wanted to explored the theme\n"
+		+ "\"Beneath the Surface\" by looking past the\n"
+		+ "appearance of AI and into its deeper emotional\n"
+		+ "and ethical implications.\n\n"
+		+ "Instead of approaching the theme in the usual way,\n"
+		+ "we challenged ourselves to look beyond the obvious\n"
+		+ "and imagine what might truly lie beneath.\n\n"
+		+ "Thank you for playing and\n"
+		+ "we wish you luck on your next instance."
 	)
 	body.add_theme_color_override("font_color", _C_TEXT)
 	body.add_theme_font_size_override("font_size", 15)
@@ -119,25 +123,6 @@ func _build(parent: Control) -> void:
 	body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	body.autowrap_mode = TextServer.AUTOWRAP_OFF
 	vbox.add_child(body)
-
-	_gap(vbox, 36.0)
-
-	# Attribution
-	var attr := Label.new()
-	attr.text = "Thank you for playing."
-	attr.add_theme_color_override("font_color", Color(_C_ACCENT.r, _C_ACCENT.g, _C_ACCENT.b, 0.70))
-	attr.add_theme_font_size_override("font_size", 14)
-	attr.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(attr)
-
-	_gap(vbox, 10.0)
-
-	var sig := Label.new()
-	sig.text = "— The Producers"
-	sig.add_theme_color_override("font_color", Color(_C_MUTED.r, _C_MUTED.g, _C_MUTED.b, 0.70))
-	sig.add_theme_font_size_override("font_size", 12)
-	sig.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(sig)
 
 	_gap(vbox, 28.0)
 
